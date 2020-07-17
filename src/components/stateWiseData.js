@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -138,16 +138,19 @@ export default function SimpleTable() {
     const rowsPerPage = 40;
 
     const getData = useCallback(() => {
-        // e.preventDefault();s
         service.getData().then(async (res) => {
             const result  = await res.json();
             setStateData(result.statewise);
         });
         
-    }, [service]);
+    }, []);
 
-    // eslint-disable-next-line
-    const data = getData();
+    useEffect(() => {
+      getData();
+    }, []);
+
+    //eslint-disable-next-line
+    // const data = getData();
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -158,8 +161,8 @@ export default function SimpleTable() {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, stateData.length - page * rowsPerPage);
 
   return (
-    <TableContainer component={Paper}>
-      <Table stickyHeader className={classes.table} size="small" aria-label="simple table">
+    <TableContainer component={Paper} className={classes.container}>
+      <Table stickyHeader className={classes.table} size="small" aria-label="sticky table">
         <EnhancedTableHead
               classes={classes}
               order={order}
@@ -170,7 +173,7 @@ export default function SimpleTable() {
             {stableSort(stateData, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                    const labelId = `enhanced-table-checkbox-${index}`;
+                    // const labelId = `enhanced-table-checkbox-${index}`;
 
                     return (
                     <TableRow
@@ -178,9 +181,10 @@ export default function SimpleTable() {
                         tabIndex={-1}
                         key={row.state}
                     >
-                        <TableCell component="th" id={labelId} scope="row">
+                        {/* <TableCell component="th" id={labelId} scope="row">
                             {row.state}
-                        </TableCell>
+                        </TableCell> */}
+                        <TableCell align="left">{row.state}</TableCell>
                         <TableCell align="right">{row.active}</TableCell>
                         <TableCell align="right">{row.confirmed}</TableCell>
                         <TableCell align="right">{row.deaths}</TableCell>

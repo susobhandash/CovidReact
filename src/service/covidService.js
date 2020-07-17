@@ -4,6 +4,7 @@ const { createContext, useContext } = React;
 
 const getData = () => {
     try {
+        // console.log("hi");
         const url = 'https://api.covid19india.org/data.json';
         return fetch(url);
     } catch(err){

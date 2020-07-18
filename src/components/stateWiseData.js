@@ -10,10 +10,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+
 import Paper from '@material-ui/core/Paper';
 import { green, blue } from '@material-ui/core/colors';
-import Avatar from '@material-ui/core/Avatar';
-import SearchIcon from '@material-ui/icons/Search';
+// import Avatar from '@material-ui/core/Avatar';
+// import SearchIcon from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
 
 import CanvasJSReact from '../assets/canvasjs.react';
@@ -28,16 +31,14 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
     },
     container: {
-        // maxHeight: document.documentElement.clientHeight - 500,
-        maxHeight: '50vh'
+        maxHeight: '70vh'
     },
     paper: {
       width: '100%',
       marginBottom: theme.spacing(2),
     },
     table: {
-      // width: 'calc(100vw - 17px)'
-      width: (document.documentElement.clientWidth > 800 ? 'calc(800px - 17px)' : document.documentElement.clientWidth - 17)
+      width: (document.documentElement.clientWidth > 1000 ? 'calc(1000px - 17px)' : document.documentElement.clientWidth - 17)
     },
     visuallyHidden: {
       border: 0,
@@ -72,12 +73,16 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       alignItems: 'center',
       marginBottom: '1rem',
-      height: '43vh',
+      height: '23vh',
       padding: 10,
       overflow: 'hidden'
     },
     tableCellFont: {
       fontSize: '0.7rem'
+    },
+    card: {
+      minWidth: '30%',
+      marginRight: '5%'
     }
 }));
 
@@ -175,6 +180,8 @@ export default function CovidDetails() {
     const [stateData, setStateData] = useState([]);
     const [dailyCases, setDailyCases] = useState([]);
     const [dailyConfirmOpts, setDailyConfirmOpts] = useState({});
+    const [dailyDeceasedOpts, setDailyDeceasedOpts] = useState({});
+    const [dailyRecoveredOpts, setDailyRecoveredOpts] = useState({});
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('name');
     const page = 0;
@@ -202,47 +209,123 @@ export default function CovidDetails() {
               });
             });
             
-            setDailyConfirmOpts({
+            setDailyRecoveredOpts({
               animationEnabled: true,
               exportEnabled: true,
               theme: "light2", // "light1", "dark1", "dark2"
-              height: document.documentElement.clientHeight * 0.42,
+              height: document.documentElement.clientHeight * 0.21,
+              title: {
+                text: "Recovered",
+                fontColor: "rgba(143,215,3,100%)",
+                fontSize: 13,
+                fontWeight: "lighter",
+              },
               axisY: {
                 includeZero: false,
                 gridThickness: 0,
-                interval: 10000
+                tickLength: 0,
+                lineThickness: 0,
+                labelFormatter: function(){
+                  return " ";
+                }
               },
               axisX: {
                 interval: 7,
                 intervalType: "day",
+                gridThickness: 0,
+                tickLength: 0,
+                lineThickness: 0,
+                labelFormatter: function(){
+                  return " ";
+                }
               },
               data: [{
                 type: "spline",
                 markerSize: 0,
                 lineThickness: 2,
-                showInLegend: true,
-                name: "Confirm Cases",
-                toolTipContent: "Week {x}: # {y}",
-                axisYIndex: 0,
-                dataPoints: dailyConfirmed
-              }, {
-                type: "spline",
-                markerSize: 0,
-                lineThickness: 1,
-                showInLegend: true,
-                name: "Recovered Cases",
-                toolTipContent: "Week {x}: # {y}",
-                axisYIndex: 2,
+                lineColor: "rgba(143,215,3,100%)",
+                toolTipContent: "{x}: Recovered # {y}",
                 dataPoints: dailyRecovered
-              }, {
+              }]
+            });
+
+            setDailyDeceasedOpts({
+              animationEnabled: true,
+              exportEnabled: true,
+              theme: "light2", // "light1", "dark1", "dark2"
+              height: document.documentElement.clientHeight * 0.21,
+              title: {
+                text: "Deceased",
+                fontColor: "rgb(253, 81, 129)",
+                fontSize: 13,
+                fontWeight: "lighter",
+              },
+              axisY: {
+                includeZero: false,
+                gridThickness: 0,
+                tickLength: 0,
+                lineThickness: 0,
+                labelFormatter: function(){
+                  return " ";
+                }
+              },
+              axisX: {
+                interval: 7,
+                intervalType: "day",
+                gridThickness: 0,
+                tickLength: 0,
+                lineThickness: 0,
+                labelFormatter: function(){
+                  return " ";
+                }
+              },
+              data: [{
                 type: "spline",
                 markerSize: 0,
                 lineThickness: 2,
-                showInLegend: true,
-                name: "Deceased Cases",
-                toolTipContent: "Week {x}: # {y}",
-                axisYIndex: 1,
+                lineColor: "rgb(253, 81, 129)",
+                toolTipContent: "{x}: Recovered # {y}",
                 dataPoints: dailyDeceased
+              }]
+            });
+
+            setDailyConfirmOpts({
+              animationEnabled: true,
+              exportEnabled: true,
+              theme: "light2", // "light1", "dark1", "dark2"
+              height: document.documentElement.clientHeight * 0.21,
+              title: {
+                text: "Confirmed",
+                fontColor: "rgba(17,162,255,100%)",
+                fontSize: 13,
+                fontWeight: "lighter",
+              },
+              axisY: {
+                includeZero: false,
+                gridThickness: 0,
+                tickLength: 0,
+                lineThickness: 0,
+                labelFormatter: function(){
+                  return " ";
+                }
+              },
+              axisX: {
+                interval: 7,
+                intervalType: "day",
+                gridThickness: 0,
+                tickLength: 0,
+                lineThickness: 0,
+                labelFormatter: function(){
+                  return " ";
+                }
+              },
+              data: [{
+                type: "spline",
+                markerSize: 0,
+                lineThickness: 2,
+                lineColor: "rgba(17,162,255,100%)",
+                toolTipContent: "{x}: Confirmed # {y}",
+                dataPoints: dailyConfirmed
               }]
             });
         });
@@ -264,7 +347,21 @@ export default function CovidDetails() {
   return (
     <div>
       <div className={classes.chartHolder}>
-        <CanvasJSChart options = {dailyConfirmOpts} />
+      <Card className={classes.card}>
+        <CardContent>
+          <CanvasJSChart options = {dailyConfirmOpts} />
+        </CardContent>
+      </Card>
+      <Card className={classes.card}>
+        <CardContent>
+          <CanvasJSChart options = {dailyRecoveredOpts} />
+        </CardContent>
+      </Card>
+      <Card className={classes.card}>
+        <CardContent>
+          <CanvasJSChart options = {dailyDeceasedOpts} />
+        </CardContent>
+      </Card>
 		  </div>
       <TableContainer component={Paper} className={classes.container}>
         <Table stickyHeader className={classes.table} size="small" aria-label="sticky table">
@@ -290,9 +387,9 @@ export default function CovidDetails() {
                           </TableCell> */}
                           <TableCell align="left" className={row.state === 'Total' ? 'bold' : ''}>
                             <Typography className={classes.stateNames} color="textSecondary">
-                              <Avatar className={classes.green}>
+                              {/* <Avatar className={classes.green}>
                                 <SearchIcon fontSize="small"/>
-                              </Avatar>
+                              </Avatar> */}
                               <span>{row.state}</span>
                             </Typography>
                           </TableCell>

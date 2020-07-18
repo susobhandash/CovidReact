@@ -44,12 +44,14 @@
 
 .bold {
   font-weight: 700 !important;
-  background: #cfd8dc;
+  /* background: #cfd8dc; */
   font-size: 0.75rem!important;
 }
 
-#canvasjs-react-chart-container-1 {
-  height: 43vh!important;
+#canvasjs-react-chart-container-1,
+#canvasjs-react-chart-container-3,
+#canvasjs-react-chart-container-5 {
+  height: 19vh!important;
 }
 
 .MuiTableCell-sizeSmall {

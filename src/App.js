@@ -14,7 +14,7 @@ import Paper from '@material-ui/core/Paper';
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
-    maxWidth: 800,
+    maxWidth: 1000,
   },
   title: {
     fontSize: 18,

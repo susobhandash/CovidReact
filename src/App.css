@@ -62,3 +62,9 @@
   font-size: 0.75rem!important;
   line-height: 1!important;
 }
+
+.align-center-justify-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

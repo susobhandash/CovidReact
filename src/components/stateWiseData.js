@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import DistrictData from './districtData.js';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -182,15 +183,37 @@ export default function CovidDetails() {
     const [dailyConfirmOpts, setDailyConfirmOpts] = useState({});
     const [dailyDeceasedOpts, setDailyDeceasedOpts] = useState({});
     const [dailyRecoveredOpts, setDailyRecoveredOpts] = useState({});
+    const [openModal, setOpenModal] = useState(false);
+    const [districtData, setDistrictData] = useState([]);
+    const [district, setDistrict] = useState({});
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('name');
     const page = 0;
     const rowsPerPage = stateData.length;
 
+    const closeModal = () => {
+      setOpenModal(false);
+    }
+
+    const getDistData = (state) => {
+      console.log(districtData);
+      districtData[state.state]['statecode'] = state.state;
+      setDistrict(districtData[state.state]);
+      setOpenModal(true);
+    }
+
+    const getDisrictData = useCallback(() => {
+      service.getStateData().then(async (res) => {
+        const result  = await res.json();
+        setDistrictData(result);
+      })
+    }, []);
+
     const getData = useCallback(() => {
         service.getData().then(async (res) => {
             const result  = await res.json();
             const dailyConfirmed = [], dailyDeceased = [], dailyRecovered = [];
+            // setDistrictData(result.statewise);
             setStateData(result.statewise);
             setDailyCases(result.cases_time_series.slice(result.cases_time_series.length - 15, result.cases_time_series.length));
             const rawData = result.cases_time_series.slice(result.cases_time_series.length - 15, result.cases_time_series.length);
@@ -211,14 +234,14 @@ export default function CovidDetails() {
             
             setDailyRecoveredOpts({
               animationEnabled: true,
-              exportEnabled: true,
+              exportEnabled: false,
               theme: "light2", // "light1", "dark1", "dark2"
               height: document.documentElement.clientHeight * 0.21,
               title: {
                 text: "Recovered",
                 fontColor: "rgba(143,215,3,100%)",
                 fontSize: 13,
-                fontWeight: "lighter",
+                fontWeight: "normal",
               },
               axisY: {
                 includeZero: false,
@@ -251,14 +274,14 @@ export default function CovidDetails() {
 
             setDailyDeceasedOpts({
               animationEnabled: true,
-              exportEnabled: true,
+              exportEnabled: false,
               theme: "light2", // "light1", "dark1", "dark2"
               height: document.documentElement.clientHeight * 0.21,
               title: {
                 text: "Deceased",
                 fontColor: "rgb(253, 81, 129)",
                 fontSize: 13,
-                fontWeight: "lighter",
+                fontWeight: "normal",
               },
               axisY: {
                 includeZero: false,
@@ -291,14 +314,14 @@ export default function CovidDetails() {
 
             setDailyConfirmOpts({
               animationEnabled: true,
-              exportEnabled: true,
+              exportEnabled: false,
               theme: "light2", // "light1", "dark1", "dark2"
               height: document.documentElement.clientHeight * 0.21,
               title: {
                 text: "Confirmed",
                 fontColor: "rgba(17,162,255,100%)",
                 fontSize: 13,
-                fontWeight: "lighter",
+                fontWeight: "normal",
               },
               axisY: {
                 includeZero: false,
@@ -334,6 +357,7 @@ export default function CovidDetails() {
 
     useEffect(() => {
       getData();
+      getDisrictData();
     }, []);
 
     const handleRequestSort = (event, property) => {
@@ -347,67 +371,72 @@ export default function CovidDetails() {
   return (
     <div>
       <div className={classes.chartHolder}>
-      <Card className={classes.card}>
-        <CardContent>
-          <CanvasJSChart options = {dailyConfirmOpts} />
-        </CardContent>
-      </Card>
-      <Card className={classes.card}>
-        <CardContent>
-          <CanvasJSChart options = {dailyRecoveredOpts} />
-        </CardContent>
-      </Card>
-      <Card className={classes.card}>
-        <CardContent>
-          <CanvasJSChart options = {dailyDeceasedOpts} />
-        </CardContent>
-      </Card>
+        <Card className={classes.card}>
+          <CardContent>
+            <CanvasJSChart options = {dailyConfirmOpts} />
+          </CardContent>
+        </Card>
+        <Card className={classes.card}>
+          <CardContent>
+            <CanvasJSChart options = {dailyRecoveredOpts} />
+          </CardContent>
+        </Card>
+        <Card className={classes.card}>
+          <CardContent>
+            <CanvasJSChart options = {dailyDeceasedOpts} />
+          </CardContent>
+        </Card>
 		  </div>
-      <TableContainer component={Paper} className={classes.container}>
-        <Table stickyHeader className={classes.table} size="small" aria-label="sticky table">
-          <EnhancedTableHead
-                classes={classes}
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-          />
-          <TableBody>
-              {stableSort(stateData, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                      
-                      return (
-                      <TableRow
-                          hover
-                          tabIndex={-1}
-                          key={row.state}
-                      >
-                          {/* <TableCell component="th" id={labelId} scope="row">
-                              {row.state}
-                          </TableCell> */}
-                          <TableCell align="left" className={row.state === 'Total' ? 'bold' : ''}>
-                            <Typography className={classes.stateNames} color="textSecondary">
-                              {/* <Avatar className={classes.green}>
-                                <SearchIcon fontSize="small"/>
-                              </Avatar> */}
-                              <span>{row.state}</span>
-                            </Typography>
-                          </TableCell>
-                          <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>{row.active}</TableCell>
-                          <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>{row.confirmed}</TableCell>
-                          <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>{row.deaths}</TableCell>
-                          <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>{row.recovered}</TableCell>
-                      </TableRow>
-                      );
-                  })}
-                  {emptyRows > 0 && (
-                  <TableRow style={{ height: 33 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                  </TableRow>
-              )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <div>
+        <TableContainer component={Paper} className={classes.container}>
+          <Table stickyHeader className={classes.table} size="small" aria-label="sticky table">
+            <EnhancedTableHead
+                  classes={classes}
+                  order={order}
+                  orderBy={orderBy}
+                  onRequestSort={handleRequestSort}
+            />
+            <TableBody>
+                {stableSort(stateData, getComparator(order, orderBy))
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row, index) => {
+                        
+                        return (
+                        <TableRow
+                            hover
+                            tabIndex={-1}
+                            key={row.state}
+                        >
+                            {/* <TableCell component="th" id={labelId} scope="row">
+                                {row.state}
+                            </TableCell> */}
+                            <TableCell align="left" className={row.state === 'Total' ? 'bold' : ''} onClick={ (e) => {getDistData(row)} }>
+                              <Typography className={classes.stateNames} color="textSecondary">
+                                {/* <Avatar className={classes.green}>
+                                  <SearchIcon fontSize="small"/>
+                                </Avatar> */}
+                                <span>{row.state}</span>
+                              </Typography>
+                            </TableCell>
+                            <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>{row.active}</TableCell>
+                            <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>{row.confirmed}</TableCell>
+                            <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>{row.deaths}</TableCell>
+                            <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>{row.recovered}</TableCell>
+                        </TableRow>
+                        );
+                    })}
+                    {emptyRows > 0 && (
+                    <TableRow style={{ height: 33 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                    </TableRow>
+                )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+      <div>
+        <DistrictData district={district} open={openModal} closeModal={closeModal}/>
+      </div>
     </div>
   );
 }

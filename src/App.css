@@ -1,5 +1,10 @@
 .App {
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f5f5f5;
 }
 
 .App-logo {
@@ -35,4 +40,23 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.bold {
+  font-weight: 700 !important;
+  background: #cfd8dc;
+  font-size: 0.75rem!important;
+}
+
+#canvasjs-react-chart-container-1 {
+  height: 43vh!important;
+}
+
+.MuiTableCell-sizeSmall {
+  padding: 4px 2px!important;
+}
+
+.MuiTableCell-head {
+  font-size: 0.75rem!important;
+  line-height: 1!important;
 }

@@ -1,6 +1,5 @@
 import React from 'react';
-import {Bar} from 'react-chartjs-2';
-import { defaults } from 'react-chartjs-2';
+import {Bar, defaults} from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 
 defaults.global.elements.rectangle.borderRadius = 5;

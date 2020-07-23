@@ -1,39 +1,54 @@
 import React from 'react';
-// import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import CovidDetails from "./components/stateWiseData.js";
+import StateDetails from './components/stateDetails.js';
 
-import { makeStyles } from '@material-ui/core/styles';
-// import Card from '@material-ui/core/Card';
-// import CardActions from '@material-ui/core/CardActions';
-// import CardContent from '@material-ui/core/CardContent';
-// import Button from '@material-ui/core/Button';
-// import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
+// import { makeStyles } from '@material-ui/core/styles';
+// import Paper from '@material-ui/core/Paper';
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-    maxWidth: 1000,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 700
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
+// const useStyles = makeStyles({
+//   root: {
+//     minWidth: 275,
+//     width: '100%',
+//     '> *': {
+//       margin: '0 auto',
+//     }
+//   },
+//   title: {
+//     fontSize: 18,
+//     fontWeight: 700
+//   },
+//   pos: {
+//     marginBottom: 12,
+//   },
+// });
 
 function App() {
-  const classes = useStyles();
+  // const classes = useStyles();
 
   return (
-    <div className="App">
-      <Paper className={classes.root}>
-        <CovidDetails/>
-      </Paper>
-    </div>
+    <Router> 
+      <div className="App"> 
+        {/* <ul> 
+          <li> 
+            <Link to="/">Home</Link> 
+          </li> 
+          <li> 
+            <Link to="/about">About Us</Link> 
+          </li>
+        </ul>  */}
+          <Switch> 
+            <Route exact path='/' component={CovidDetails}></Route> 
+          </Switch> 
+        <Route path='/:StateDetails' component={StateDetails} />
+      </div> 
+    </Router>
+    // <div className="App">
+    //   <Paper className={classes.root}>
+    //     <CovidDetails/>
+    //   </Paper>
+    // </div>
   );
 }
 

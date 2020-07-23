@@ -82,13 +82,13 @@ class DistrictData extends React.Component {
                 open={this.state.open}
             >
                 <DialogTitle id="simple-dialog-title">
-                    <Typography variant="h5" color="textSecondary" component="p">
-                        <div className="align-center-justify-between">
+                    <Typography variant="h5" color="textSecondary" component="div">
+                        <p className="align-center-justify-between">
                             {this.props.district.statecode}
                             <IconButton aria-label="Close Modal" onClick={() => {this.setState({open: false}); this.props.closeModal()}}>
                                 <CloseIcon />
                             </IconButton>
-                        </div>
+                        </p>
                     </Typography>
                 </DialogTitle>
                 <DialogContent>
@@ -96,7 +96,7 @@ class DistrictData extends React.Component {
                         <div className={classes.root}>
                         {this.state.keys ? this.state.keys.map((dist, index, a) => {
                             return (
-                                <Accordion>
+                                <Accordion key={index}>
                                     <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="panel{index}a-content"
@@ -113,7 +113,7 @@ class DistrictData extends React.Component {
                                             <Typography variant="body2" component="p" color="textSecondary" className={classes.heading} align="right">
                                                 {this.props.district.districtData[dist].confirmed}
                                             </Typography>
-                                            <Typography variant="span" component="p" className={classes.confirmed} align="right">
+                                            <Typography variant="h5" component="p" className={classes.confirmed} align="right">
                                                 <ArrowUpwardIcon fontSize="small"/>
                                                 {this.props.district.districtData[dist].delta.confirmed}
                                             </Typography>
@@ -125,7 +125,7 @@ class DistrictData extends React.Component {
                                             <Typography variant="body2" component="p" color="textSecondary" className={classes.heading} align="right">
                                                 {this.props.district.districtData[dist].deceased}
                                             </Typography>
-                                            <Typography variant="span" component="p" className={classes.deceased} align="right">
+                                            <Typography variant="h5" component="p" className={classes.deceased} align="right">
                                                 <ArrowUpwardIcon fontSize="small"/>
                                                 {this.props.district.districtData[dist].delta.deceased}
                                             </Typography>
@@ -137,7 +137,7 @@ class DistrictData extends React.Component {
                                             <Typography variant="body2" component="p" color="textSecondary" className={classes.heading} align="right">
                                                 {this.props.district.districtData[dist].recovered}
                                             </Typography>
-                                            <Typography variant="span" component="p" className={classes.recovered} align="right">
+                                            <Typography variant="h5" component="p" className={classes.recovered} align="right">
                                                 <ArrowUpwardIcon fontSize="small"/>
                                                 {this.props.district.districtData[dist].delta.recovered}
                                             </Typography>

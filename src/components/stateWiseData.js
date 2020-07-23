@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import DistrictData from './districtData.js';
+// import DistrictData from './districtData.js';
+import StateDetails from './stateDetails.js';
+import { Link } from 'react-router-dom';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -15,9 +17,9 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
 import Paper from '@material-ui/core/Paper';
-import { green, blue } from '@material-ui/core/colors';
-// import Avatar from '@material-ui/core/Avatar';
-// import SearchIcon from '@material-ui/icons/Search';
+import Grid from '@material-ui/core/Grid';
+import { green, blue, grey } from '@material-ui/core/colors';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import Typography from '@material-ui/core/Typography';
 
 import CanvasJSReact from '../assets/canvasjs.react';
@@ -32,14 +34,14 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
     },
     container: {
-        maxHeight: '70vh'
+        // maxHeight: '95vh'
     },
     paper: {
       width: '100%',
       marginBottom: theme.spacing(2),
     },
     table: {
-      width: (document.documentElement.clientWidth > 1000 ? 'calc(1000px - 17px)' : document.documentElement.clientWidth - 17)
+      width: '100%'
     },
     visuallyHidden: {
       border: 0,
@@ -65,7 +67,6 @@ const useStyles = makeStyles((theme) => ({
       alignItems: 'center',
       color: blue[600],
       cursor: 'pointer',
-      fontSize: '0.7rem'
     },
     sortLabel: {
       fontWeight: 600,
@@ -74,17 +75,29 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       alignItems: 'center',
       marginBottom: '1rem',
-      height: '23vh',
-      padding: 10,
+      // height: '23vh',
+      // padding: 10,
       overflow: 'hidden'
     },
     tableCellFont: {
-      fontSize: '0.7rem'
+      fontSize: '0.8rem'
     },
     card: {
-      minWidth: '30%',
-      marginRight: '5%'
-    }
+      // minWidth: '30%',
+      // marginRight: '5%'
+    },
+    gridRoot: {
+      flexGrow: 1,
+      margin: '0 auto'
+    },
+    tableHeaderDark: {
+      backgroundColor: grey[300],
+    },
+    altRows: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: '#f9f9f9',
+      },
+    },
 }));
 
 const headCells = [
@@ -147,6 +160,7 @@ function EnhancedTableHead(props) {
               padding='default'
               sortDirection={orderBy === headCell.id ? order : false}
               style={{ width: headCell.width }}
+              className={classes.tableHeaderDark}
             >
               <TableSortLabel
                 active={orderBy === headCell.id}
@@ -183,24 +197,24 @@ export default function CovidDetails() {
     const [dailyConfirmOpts, setDailyConfirmOpts] = useState({});
     const [dailyDeceasedOpts, setDailyDeceasedOpts] = useState({});
     const [dailyRecoveredOpts, setDailyRecoveredOpts] = useState({});
-    const [openModal, setOpenModal] = useState(false);
+    // const [openModal, setOpenModal] = useState(false);
     const [districtData, setDistrictData] = useState([]);
-    const [district, setDistrict] = useState({});
+    // const [district, setDistrict] = useState({});
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('name');
     const page = 0;
     const rowsPerPage = stateData.length;
 
-    const closeModal = () => {
-      setOpenModal(false);
-    }
+    // const closeModal = () => {
+    //   setOpenModal(false);
+    // }
 
-    const getDistData = (state) => {
-      console.log(districtData);
-      districtData[state.state]['statecode'] = state.state;
-      setDistrict(districtData[state.state]);
-      setOpenModal(true);
-    }
+    // const getDistData = (state) => {
+    //   console.log(districtData);
+    //   districtData[state.state]['statecode'] = state.state;
+    //   setDistrict(districtData[state.state]);
+    //   setOpenModal(true);
+    // }
 
     const getDisrictData = useCallback(() => {
       service.getStateData().then(async (res) => {
@@ -215,6 +229,7 @@ export default function CovidDetails() {
             const dailyConfirmed = [], dailyDeceased = [], dailyRecovered = [];
             // setDistrictData(result.statewise);
             setStateData(result.statewise);
+            console.log(stateData);
             setDailyCases(result.cases_time_series.slice(result.cases_time_series.length - 15, result.cases_time_series.length));
             const rawData = result.cases_time_series.slice(result.cases_time_series.length - 15, result.cases_time_series.length);
             rawData.forEach((el) => {
@@ -239,7 +254,7 @@ export default function CovidDetails() {
               height: document.documentElement.clientHeight * 0.21,
               title: {
                 text: "Recovered",
-                fontColor: "rgba(143,215,3,100%)",
+                fontColor: "#28a745",
                 fontSize: 13,
                 fontWeight: "normal",
               },
@@ -266,7 +281,7 @@ export default function CovidDetails() {
                 type: "spline",
                 markerSize: 0,
                 lineThickness: 2,
-                lineColor: "rgba(143,215,3,100%)",
+                lineColor: "#28a745",
                 toolTipContent: "{x}: Recovered # {y}",
                 dataPoints: dailyRecovered
               }]
@@ -279,7 +294,7 @@ export default function CovidDetails() {
               height: document.documentElement.clientHeight * 0.21,
               title: {
                 text: "Deceased",
-                fontColor: "rgb(253, 81, 129)",
+                fontColor: "#6c757d",
                 fontSize: 13,
                 fontWeight: "normal",
               },
@@ -306,7 +321,7 @@ export default function CovidDetails() {
                 type: "spline",
                 markerSize: 0,
                 lineThickness: 2,
-                lineColor: "rgb(253, 81, 129)",
+                lineColor: "#6c757d",
                 toolTipContent: "{x}: Recovered # {y}",
                 dataPoints: dailyDeceased
               }]
@@ -319,7 +334,7 @@ export default function CovidDetails() {
               height: document.documentElement.clientHeight * 0.21,
               title: {
                 text: "Confirmed",
-                fontColor: "rgba(17,162,255,100%)",
+                fontColor: "#ff073a",
                 fontSize: 13,
                 fontWeight: "normal",
               },
@@ -346,7 +361,8 @@ export default function CovidDetails() {
                 type: "spline",
                 markerSize: 0,
                 lineThickness: 2,
-                lineColor: "rgba(17,162,255,100%)",
+                lineColor: "#ff073a",
+                backgroundColor: 'rgba(255, 7, 58, 0.565)',
                 toolTipContent: "{x}: Confirmed # {y}",
                 dataPoints: dailyConfirmed
               }]
@@ -369,74 +385,123 @@ export default function CovidDetails() {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, stateData.length - page * rowsPerPage);
 
   return (
-    <div>
-      <div className={classes.chartHolder}>
-        <Card className={classes.card}>
-          <CardContent>
-            <CanvasJSChart options = {dailyConfirmOpts} />
-          </CardContent>
-        </Card>
-        <Card className={classes.card}>
-          <CardContent>
-            <CanvasJSChart options = {dailyRecoveredOpts} />
-          </CardContent>
-        </Card>
-        <Card className={classes.card}>
-          <CardContent>
-            <CanvasJSChart options = {dailyDeceasedOpts} />
-          </CardContent>
-        </Card>
-		  </div>
-      <div>
-        <TableContainer component={Paper} className={classes.container}>
-          <Table stickyHeader className={classes.table} size="small" aria-label="sticky table">
-            <EnhancedTableHead
-                  classes={classes}
-                  order={order}
-                  orderBy={orderBy}
-                  onRequestSort={handleRequestSort}
-            />
-            <TableBody>
-                {stableSort(stateData, getComparator(order, orderBy))
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row, index) => {
-                        
-                        return (
-                        <TableRow
-                            hover
-                            tabIndex={-1}
-                            key={row.state}
-                        >
-                            {/* <TableCell component="th" id={labelId} scope="row">
-                                {row.state}
-                            </TableCell> */}
-                            <TableCell align="left" className={row.state === 'Total' ? 'bold' : ''} onClick={ (e) => {getDistData(row)} }>
-                              <Typography className={classes.stateNames} color="textSecondary">
-                                {/* <Avatar className={classes.green}>
-                                  <SearchIcon fontSize="small"/>
-                                </Avatar> */}
-                                <span>{row.state}</span>
-                              </Typography>
-                            </TableCell>
-                            <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>{row.active}</TableCell>
-                            <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>{row.confirmed}</TableCell>
-                            <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>{row.deaths}</TableCell>
-                            <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>{row.recovered}</TableCell>
+    <Grid container className={classes.gridRoot} spacing={2}>
+      <Grid item xs={12}>
+        <Grid container justify="center" spacing={2}>
+          <Grid xs={12} md={8} item>
+            <TableContainer component={Paper} className={classes.container} spacing={2}>
+              <Table stickyHeader className={classes.table} size="small" aria-label="sticky table">
+                <EnhancedTableHead
+                      classes={classes}
+                      order={order}
+                      orderBy={orderBy}
+                      onRequestSort={handleRequestSort}
+                />
+                <TableBody>
+                    {stableSort(stateData, getComparator(order, orderBy))
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map((row, index) => {
+                            
+                            return (
+                            <TableRow
+                                hover
+                                tabIndex={-1}
+                                key={row.state}
+                                className={classes.altRows}
+                            >
+                                {/* <TableCell component="th" id={labelId} scope="row">
+                                    {row.state}
+                                </TableCell> */}
+                                <TableCell align="left" className={row.state === 'Total' ? 'bold' : ''}>
+                                  <Typography className={classes.stateNames} color="secondary">
+                                    {/* <Avatar className={classes.green}>
+                                      <SearchIcon fontSize="small"/>
+                                    </Avatar> */}
+                                    <Link to={{
+                                      pathname: '/StateDetails',
+                                      state: {
+                                        stateName: row.state,
+                                        statecode: row.statecode
+                                      }
+                                    }}>
+                                      {row.state}
+                                    </Link>
+                                  </Typography>
+                                </TableCell>
+                                <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
+                                  <Typography className="align-center active-color">
+                                    {row.active}
+                                  </Typography>
+                                </TableCell>
+                                <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
+                                  <Typography className="align-center confirmed-light-color" variant="body2" component="p">
+                                    <ArrowUpwardIcon fontSize="small"/>
+                                    {row.deltaconfirmed}
+                                  </Typography>
+                                  <Typography className="confirmed-color">
+                                    {row.confirmed}
+                                  </Typography>
+                                </TableCell>
+                                <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
+                                  <Typography className="align-center death-light-color" variant="body2" component="p">
+                                    <ArrowUpwardIcon fontSize="small"/>
+                                    {row.deltadeaths}
+                                  </Typography>
+                                  <Typography className="death-color">
+                                    {row.deaths}
+                                  </Typography>
+                                </TableCell>
+                                <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
+                                  <Typography className="align-center recovered-light-color" variant="body2" component="p">
+                                    <ArrowUpwardIcon fontSize="small"/>
+                                    {row.deltarecovered}
+                                  </Typography>
+                                  <Typography className="recovered-color">
+                                    {row.recovered}
+                                  </Typography>
+                                </TableCell>
+                            </TableRow>
+                            );
+                        })}
+                        {emptyRows > 0 && (
+                        <TableRow style={{ height: 33 * emptyRows }}>
+                            <TableCell colSpan={6} />
                         </TableRow>
-                        );
-                    })}
-                    {emptyRows > 0 && (
-                    <TableRow style={{ height: 33 * emptyRows }}>
-                        <TableCell colSpan={6} />
-                    </TableRow>
-                )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-      <div>
+                    )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Grid>
+          <Grid xs={12} md={4} item>
+            <Grid container className={classes.chartHolder} spacing={2}>
+              <Grid xs={4} md={12} item>
+                <Card className={classes.card}>
+                  <CardContent>
+                    <CanvasJSChart options = {dailyConfirmOpts} />
+                  </CardContent>
+                </Card>  
+              </Grid>
+              <Grid xs={4} md={12} item>
+                <Card className={classes.card}>
+                  <CardContent>
+                    <CanvasJSChart options = {dailyRecoveredOpts} />
+                  </CardContent>
+                </Card>  
+              </Grid>
+              <Grid xs={4} md={12} item>
+                <Card className={classes.card}>
+                  <CardContent>
+                    <CanvasJSChart options = {dailyDeceasedOpts} />
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+      {/* <Grid item xs={12}>
         <DistrictData district={district} open={openModal} closeModal={closeModal}/>
-      </div>
-    </div>
+      </Grid> */}
+    </Grid>
   );
 }

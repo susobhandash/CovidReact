@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ChartComp from './chartComp.js';
 
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -13,7 +14,10 @@ class StateDetails extends React.Component {
         stateName: '',
         statecode: '',
         stateData: [],
-        distdata: []
+        distdata: [],
+        historyData: {},
+        selectedFilter: 'confirmed',
+        graphData: {}
     }
     componentDidMount () {
         this.setState({stateName: this.props.location.state.stateName});
@@ -45,7 +49,79 @@ class StateDetails extends React.Component {
                 this.setState({distdata: data});
             }
         );
+        fetch('https://api.covid19india.org/v4/timeseries.json')
+            .then(async (res) => {
+                const result = await res.json();
+                const data = result[this.state.statecode].dates;
+                // this.setState({historyData: result[this.state.statecode]});
+                const date = new Date();
+                const dates = [];
+                for (let i=0; i<7; i++) {
+                    const dataItem = {
+                        date: '',
+                        total: {},
+                        delta: {}
+                    };
+                    const desiredYear = date.getFullYear();
+                    const desiredMonth = (date.getMonth()+1).toString().length === 1 ? '0' + (date.getMonth()+1) : date.getMonth()+1;
+                    const desiredDate = (date.getDate()-i).toString().length === 1 ? '0' + (date.getDate()-i) : date.getDate()-i;
+                    const desiredFullDate = desiredYear + '-' + desiredMonth + '-' + desiredDate;
+                    dataItem.date = desiredFullDate;
+                    if (data[desiredFullDate]) {
+                        dataItem.total = data[desiredFullDate].total;
+                        dataItem.delta = data[desiredFullDate].delta;
+                        dates.push(dataItem);
+                    }
+                }
+                // dates.sort();
+                dates.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0)); 
+                this.setState({historyData: dates});
+                this.populateGraphData();
+            }
+        );
     }
+
+    populateGraphData = () => {
+        let graphDataItem = {
+            title: this.state.selectedFilter,
+            labels: [],
+            datasets: [{
+                data: [],
+                backgroundColor: '',
+                borderColor: '',
+                hoverBackgroundColor: '',
+                borderWidth: 0,
+                barPercentage: 0.5,
+            }]
+        };
+        let backgroundColor = '';
+        let borderColor = '';
+        let hoverBackgroundColor = '';
+        this.state.historyData.forEach((el) => {
+            graphDataItem.labels.push(el.date);
+            graphDataItem.datasets[0].data.push(el.total[this.state.selectedFilter]);
+        });
+        if (this.state.selectedFilter === 'confirmed') {
+            backgroundColor = 'rgba(255, 7, 58, 0.125)';
+            borderColor = '#ff073a';
+            hoverBackgroundColor = 'rgba(255, 7, 58, 0.565)';
+        } else if (this.state.selectedFilter === 'deceased') {
+            backgroundColor = 'rgba(108, 117, 125, 0.125)';
+            borderColor = '#6c757d';
+            hoverBackgroundColor = 'rgba(108, 117, 125, 0.565)';
+        } else {
+            backgroundColor = 'rgba(40, 167, 69, 0.125)';
+            borderColor = '#28a745';
+            hoverBackgroundColor = 'rgba(40, 167, 69, 0.565)';
+        }
+        graphDataItem.datasets[0].borderWidth = 0;
+        graphDataItem.datasets[0].barPercentage = 0.5;
+        graphDataItem.datasets[0].backgroundColor = backgroundColor;
+        graphDataItem.datasets[0].borderColor = borderColor;
+        graphDataItem.datasets[0].hoverBackgroundColor = hoverBackgroundColor;
+        this.setState({graphData: graphDataItem});
+    }
+
     render() {
         return(
             <Paper>
@@ -86,7 +162,14 @@ class StateDetails extends React.Component {
                                     </div>
                                 </Grid>
                                 <Grid xs={3} item>
-                                    <div className="confirmed-bg-hover br-5 text-center c-p p-2">
+                                    <div className={`confirmed-bg-hover br-5 text-center c-p p-2 ${this.state.selectedFilter === 'confirmed' ? "confirmed-bg" : ""}`}
+                                        onClick={() => {
+                                            this.setState({
+                                                selectedFilter: 'confirmed',
+                                            }, function () {
+                                                this.populateGraphData();
+                                            }.bind(this));
+                                        }} >
                                         <Typography variant="body2" component="p" className="confirmed-color">
                                             Confirmed
                                         </Typography>
@@ -100,7 +183,14 @@ class StateDetails extends React.Component {
                                     </div>
                                 </Grid>
                                 <Grid xs={3} item>
-                                    <div className="recovered-bg-hover br-5 text-center c-p p-2">
+                                    <div className={`recovered-bg-hover br-5 text-center c-p p-2 ${this.state.selectedFilter === 'recovered' ? "recovered-bg" : ""}`}
+                                        onClick={() => {
+                                            this.setState({
+                                                selectedFilter: 'recovered',
+                                            }, function () {
+                                                this.populateGraphData();
+                                            }.bind(this));
+                                        }} >
                                         <Typography variant="body2" component="p" className="recovered-color">
                                             Recovered
                                         </Typography>
@@ -114,7 +204,14 @@ class StateDetails extends React.Component {
                                     </div>
                                 </Grid>
                                 <Grid xs={3} item>
-                                    <div className="death-bg-hover br-5 text-center c-p p-2">
+                                    <div className={`death-bg-hover br-5 text-center c-p p-2 ${this.state.selectedFilter === 'deceased' ? "death-bg" : ""}`}
+                                        onClick={() => {
+                                            this.setState({
+                                                selectedFilter: 'deceased',
+                                            }, function () {
+                                                this.populateGraphData();
+                                            }.bind(this));
+                                        }} >
                                         <Typography variant="body2" component="p" className="death-color">
                                             Deceased
                                         </Typography>
@@ -130,34 +227,34 @@ class StateDetails extends React.Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid container className="d-flex text-center align-center dist-data" spacing={0}>
-                        <Grid xs={12} md={6} item className="pl-2">
+                    <Grid container className="d-flex text-center dist-data" spacing={0}>
+                        <Grid xs={12} md={8} item className="pl-2">
                             <div className="d-flex text-left dist-header">
-                                <Typography variant="body" component="h4" className="col-4">
+                                <Typography variant="body1" component="h4" className="col-4">
                                     District
                                 </Typography>
-                                <Typography variant="body" component="h4" className="col active-color">
+                                <Typography variant="body1" component="h4" className="col active-color">
                                     Active
                                 </Typography>
-                                <Typography variant="body" component="h4" className="col confirmed-color">
+                                <Typography variant="body1" component="h4" className="col confirmed-color">
                                     Confirm
                                 </Typography>
-                                <Typography variant="body" component="h4" className="col death-color">
+                                <Typography variant="body1" component="h4" className="col death-color">
                                     Deceased
                                 </Typography>
-                                <Typography variant="body" component="h4" className="col recovered-color">
+                                <Typography variant="body1" component="h4" className="col recovered-color">
                                     Recovered
                                 </Typography>
                             </div>
                             {this.state.distdata.map((dist) => (
-                                <div className="d-flex text-left dist-body">
+                                <div className="d-flex text-left dist-body" key={dist.name}>
                                     <div className="align-center col-4 d-inline-flex">
-                                        <Typography variant="body" component="h4">
+                                        <Typography variant="body1" component="h4">
                                             {dist.name}
                                         </Typography>
                                     </div>
                                     <div className="align-center col d-inline-flex active-bg active-bg-hover">
-                                        <Typography variant="body" component="h4" className="active-color">
+                                        <Typography variant="body1" component="h4" className="active-color">
                                             {dist.active}
                                         </Typography>
                                     </div>
@@ -165,7 +262,7 @@ class StateDetails extends React.Component {
                                         <Typography variant="body2" component="small" className="confirmed-light-color d-flex align-center">
                                             <ArrowUpwardIcon fontSize="small"/> {dist.deltaConfirmed}
                                         </Typography>
-                                        <Typography variant="body" component="h4" className="confirmed-color">
+                                        <Typography variant="body1" component="h4" className="confirmed-color">
                                             {dist.confirmed}
                                         </Typography>
                                     </div>
@@ -173,7 +270,7 @@ class StateDetails extends React.Component {
                                         <Typography variant="body2" component="small" className="death-light-color d-flex align-center">
                                             <ArrowUpwardIcon fontSize="small"/> {dist.deltaDeceased}
                                         </Typography>
-                                        <Typography variant="body" component="h4" className="death-color">
+                                        <Typography variant="body1" component="h4" className="death-color">
                                             {dist.deceased}
                                         </Typography>
                                     </div>
@@ -181,7 +278,7 @@ class StateDetails extends React.Component {
                                         <Typography variant="body2" component="small" className="recovered-light-color d-flex align-center">
                                             <ArrowUpwardIcon fontSize="small"/> {dist.deltaRecovered}
                                         </Typography>
-                                        <Typography variant="body" component="h4" className="recovered-color">
+                                        <Typography variant="body1" component="h4" className="recovered-color">
                                             {dist.recovered}
                                         </Typography>
                                     </div>
@@ -190,6 +287,9 @@ class StateDetails extends React.Component {
                                     </Typography> */}
                                 </div>
                             ))}
+                        </Grid>
+                        <Grid xs={12} md={4} item className="pl-2">
+                            <ChartComp graphData={this.state.graphData}/>
                         </Grid>
                     </Grid>
                 </div>

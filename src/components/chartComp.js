@@ -20,7 +20,9 @@ export default class ChartComp extends React.Component {
             this.setState({graphData: nextProps.graphData});
             console.log(this.chartReference);
             this.getFontColor();
-            this.chartReference.chartInstance.update();
+            if (this.chartReference && this.chartReference.chartInstance) {
+                this.chartReference.chartInstance.update();
+            }
         }
     }
 
@@ -37,39 +39,48 @@ export default class ChartComp extends React.Component {
         this.setState({titleColor: color});
     }
 
+    checkAndRender = () => {
+        if (this.state.graphData.title && this.state.graphData.title.length > 0) {
+            return (
+                <div className="p-2">
+                    <Bar
+                        ref={ (reference) => this.chartReference = reference}
+                        data={this.state.graphData}
+                        redraw={true}
+                        options={{
+                            legend:{
+                                display:false,
+                            },
+                            title:{
+                                display:true,
+                                text:this.state.graphData.title,
+                                fontSize:20,
+                                fontColor: this.state.titleColor
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: false
+                                }],
+                                yAxes: [{
+                                    display: false,
+                                    ticks: {
+                                        suggestedMin: 0,
+                                    }
+                                }]
+                            }
+                        }}
+                    />
+                </div>
+            );
+        } else {
+            return null;
+        }
+    }
+
   render() {
-    return (
-    //   <div className={`p-2 ${this.state.graphData.title === 'recovered' ? "recovered-bg" : ""} ${this.state.graphData.title === 'confirmed' ? "confirmed-bg" : ""} ${this.state.graphData.title === 'deceased' ? "death-bg" : ""}`}>
-    <div className="p-2">
-        <Bar
-            ref={ (reference) => this.chartReference = reference}
-            data={this.state.graphData}
-            redraw={true}
-            options={{
-                legend:{
-                    display:false,
-                },
-                title:{
-                    display:true,
-                    text:this.state.graphData.title,
-                    fontSize:20,
-                    fontColor: this.state.titleColor
-                },
-                scales: {
-                    xAxes: [{
-                        display: false
-                    }],
-                    yAxes: [{
-                        display: false,
-                        ticks: {
-                            suggestedMin: 0,
-                        }
-                    }]
-                }
-            }}
-        />
-      </div>
-    );
+        return (
+            this.checkAndRender()
+        );
   }
 }
 

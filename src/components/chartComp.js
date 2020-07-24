@@ -15,7 +15,7 @@ export default class ChartComp extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.graphData) {
+        if (nextProps.graphData && nextProps.graphData.title && nextProps.graphData.title.length > 0) {
             this.setState({graphData: nextProps.graphData});
             console.log(this.chartReference);
             this.chartReference.chartInstance.update();

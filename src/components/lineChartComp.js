@@ -1,10 +1,26 @@
 import React from 'react';
-import {Bar, defaults} from 'react-chartjs-2';
+import {Line, defaults} from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 
 defaults.global.elements.rectangle.borderRadius = 5;
 
-export default class BarChartComp extends React.Component {
+// const state = {
+//     labels: ['January', 'February', 'March',
+//              'April', 'May'],
+//     datasets: [
+//       {
+//         label: 'Rainfall',
+//         fill: false,
+//         lineTension: 0.5,
+//         backgroundColor: 'rgba(75,192,192,1)',
+//         borderColor: 'rgba(0,0,0,1)',
+//         borderWidth: 2,
+//         data: [65, 59, 80, 81, 56]
+//       }
+//     ]
+// }
+
+export default class LineChartComp extends React.Component {
     constructor(props) {
         super(props);
         this.chartReference = {};
@@ -50,37 +66,27 @@ export default class BarChartComp extends React.Component {
         if (this.state.graphData.title && this.state.graphData.title.length > 0) {
             return (
                 <div className="p-2">
-                    <Bar
-                        ref={ (reference) => this.chartReference = reference}
+                    <Line
                         data={this.state.graphData}
-                        redraw={true}
                         options={{
-                            legend:{
-                                display:false,
-                            },
                             title:{
-                                display:true,
-                                text:this.state.graphData.title,
-                                fontSize:20,
-                                fontColor: this.state.titleColor
+                                display:false
+                            },
+                            legend:{
+                                display:false
                             },
                             scales: {
                                 xAxes: [{
-                                    display: true,
-                                    ticks: {
-                                        fontColor: this.state.titleColor,
-                                        fontSize: 12,
-                                        fontStyle: 'bold',
-                                        callback: function(value, index, values) {
-                                            return new Date(value).toDateString().slice(4, 10);
-                                        }
-                                    },
+                                    display: false,
                                     gridLines: {
                                         display: false
                                     }
                                 }],
                                 yAxes: [{
                                     display: false,
+                                    gridLines: {
+                                        display: false
+                                    },
                                     ticks: {
                                         suggestedMin: 0,
                                     }
@@ -102,6 +108,6 @@ export default class BarChartComp extends React.Component {
   }
 }
 
-BarChartComp.propTypes = {
+LineChartComp.propTypes = {
     graphData: PropTypes.object.isRequired
 };

@@ -213,9 +213,6 @@ class StateDetails extends React.Component {
                                         <Typography variant="h6" component="h1" className="confirmed-color">
                                             {this.state.stateData.total?.confirmed}
                                         </Typography>
-                                        {/* <Typography variant="h6" component="h1">
-                                            <BarChartComp graphData={this.state.graphData}/>
-                                        </Typography> */}
                                     </div>
                                 </Grid>
                                 <Grid xs={3} item>

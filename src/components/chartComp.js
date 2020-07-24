@@ -10,7 +10,8 @@ export default class ChartComp extends React.Component {
         // this.chartReference = React.createRef();
         this.chartReference = {};
         this.state = {
-            graphData: this.props.graphData
+            graphData: this.props.graphData,
+            titleColor: ''
         }
     }
 
@@ -18,12 +19,12 @@ export default class ChartComp extends React.Component {
         if (nextProps.graphData && nextProps.graphData.title && nextProps.graphData.title.length > 0) {
             this.setState({graphData: nextProps.graphData});
             console.log(this.chartReference);
+            this.getFontColor();
             this.chartReference.chartInstance.update();
         }
     }
 
-  render() {
-    const getFontColor = () => {
+    getFontColor = () => {
         let color = '';
         if (this.state.graphData.title === 'confirmed') {
             color = '#ff073a';
@@ -33,9 +34,10 @@ export default class ChartComp extends React.Component {
             color = '#6c757d';
         }
 
-        return color;
+        this.setState({titleColor: color});
     }
 
+  render() {
     return (
     //   <div className={`p-2 ${this.state.graphData.title === 'recovered' ? "recovered-bg" : ""} ${this.state.graphData.title === 'confirmed' ? "confirmed-bg" : ""} ${this.state.graphData.title === 'deceased' ? "death-bg" : ""}`}>
     <div className="p-2">
@@ -51,7 +53,7 @@ export default class ChartComp extends React.Component {
                     display:true,
                     text:this.state.graphData.title,
                     fontSize:20,
-                    fontColor: getFontColor()
+                    fontColor: this.state.titleColor
                 },
                 scales: {
                     xAxes: [{

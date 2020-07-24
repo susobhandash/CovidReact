@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 defaults.global.elements.rectangle.borderRadius = 5;
 
-export default class ChartComp extends React.Component {
+export default class BarChartComp extends React.Component {
     constructor(props) {
         super(props);
         this.chartReference = {};
@@ -29,14 +29,18 @@ export default class ChartComp extends React.Component {
 
     getFontColor = () => {
         let color = '';
-        if (this.state.graphData.title === 'confirmed') {
-            color = '#ff073a';
-        } else if (this.state.graphData.title === 'recovered') {
-            color = '#28a745';
-        } else if (this.state.graphData.title === 'deceased') {
-            color = '#6c757d';
+        if (this.state.graphData.title.indexOf('Delta') == -1) {
+            if (this.state.graphData.title === 'confirmed') {
+                color = '#ff073a';
+            } else if (this.state.graphData.title === 'recovered') {
+                color = '#28a745';
+            } else if (this.state.graphData.title === 'deceased') {
+                color = '#6c757d';
+            } else {
+                color = '#ff073a';
+            }
         } else {
-            color = '#ff073a';
+            color = 'rgba(32,26,162,.866667)';
         }
 
         this.setState({titleColor: color});
@@ -62,7 +66,15 @@ export default class ChartComp extends React.Component {
                             },
                             scales: {
                                 xAxes: [{
-                                    display: false
+                                    display: true,
+                                    ticks: {
+                                        fontColor: this.state.titleColor,
+                                        fontSize: 12,
+                                        fontStyle: 'bold'
+                                    },
+                                    gridLines: {
+                                        display: false
+                                    }
                                 }],
                                 yAxes: [{
                                     display: false,
@@ -87,6 +99,6 @@ export default class ChartComp extends React.Component {
   }
 }
 
-ChartComp.propTypes = {
+BarChartComp.propTypes = {
     graphData: PropTypes.object.isRequired
 };

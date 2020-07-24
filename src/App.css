@@ -225,6 +225,8 @@
   }
   .dist-header .col {
     background: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .dist-body .col-4,
   .dist-body .col,

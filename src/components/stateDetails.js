@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ChartComp from './chartComp.js';
+import BarChartComp from './chartComp.js';
 
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -17,7 +17,8 @@ class StateDetails extends React.Component {
         distdata: [],
         historyData: {},
         selectedFilter: 'confirmed',
-        graphData: {}
+        graphData: {},
+        deltaGraphData: {}
     }
     componentDidMount () {
         this.setState({stateName: this.props.location.state.stateName});
@@ -77,8 +78,39 @@ class StateDetails extends React.Component {
                 dates.sort((a,b) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0)); 
                 this.setState({historyData: dates});
                 this.populateGraphData();
+                this.populateDeltaGraphData();
             }
         );
+    }
+
+    populateDeltaGraphData = () => {
+        let graphDataItem = {
+            title: 'Delta ' + this.state.selectedFilter,
+            labels: [],
+            datasets: [{
+                data: [],
+                backgroundColor: '',
+                borderColor: '',
+                hoverBackgroundColor: '',
+                borderWidth: 0,
+                barPercentage: 0.5,
+            }]
+        };
+        
+        this.state.historyData.forEach((el) => {
+            if (el.delta) {
+                graphDataItem.labels.push(el.date);
+                graphDataItem.datasets[0].data.push(el.delta[this.state.selectedFilter]);
+            }
+        });
+        
+        graphDataItem.datasets[0].borderWidth = 0;
+        graphDataItem.datasets[0].barPercentage = 0.5;
+        graphDataItem.datasets[0].backgroundColor = 'rgba(32,26,162,.12549)';
+        graphDataItem.datasets[0].borderColor = 'rgba(32,26,162,.866667)';
+        graphDataItem.datasets[0].hoverBackgroundColor = 'rgba(32,26,162,0.565)';
+        
+        this.setState({deltaGraphData: graphDataItem});
     }
 
     populateGraphData = () => {
@@ -168,6 +200,7 @@ class StateDetails extends React.Component {
                                                 selectedFilter: 'confirmed',
                                             }, function () {
                                                 this.populateGraphData();
+                                                this.populateDeltaGraphData();
                                             }.bind(this));
                                         }} >
                                         <Typography variant="body2" component="p" className="confirmed-color">
@@ -180,6 +213,9 @@ class StateDetails extends React.Component {
                                         <Typography variant="h6" component="h1" className="confirmed-color">
                                             {this.state.stateData.total?.confirmed}
                                         </Typography>
+                                        {/* <Typography variant="h6" component="h1">
+                                            <BarChartComp graphData={this.state.graphData}/>
+                                        </Typography> */}
                                     </div>
                                 </Grid>
                                 <Grid xs={3} item>
@@ -189,6 +225,7 @@ class StateDetails extends React.Component {
                                                 selectedFilter: 'recovered',
                                             }, function () {
                                                 this.populateGraphData();
+                                                this.populateDeltaGraphData();
                                             }.bind(this));
                                         }} >
                                         <Typography variant="body2" component="p" className="recovered-color">
@@ -210,6 +247,7 @@ class StateDetails extends React.Component {
                                                 selectedFilter: 'deceased',
                                             }, function () {
                                                 this.populateGraphData();
+                                                this.populateDeltaGraphData();
                                             }.bind(this));
                                         }} >
                                         <Typography variant="body2" component="p" className="death-color">
@@ -228,6 +266,14 @@ class StateDetails extends React.Component {
                         </Grid>
                     </Grid>
                     <Grid container className="d-flex text-center dist-data" spacing={0}>
+                        <Grid xs={12} md={4} item>
+                            <div className="p-2">
+                                <BarChartComp graphData={this.state.graphData}/>
+                            </div>
+                            <div className="p-2">
+                                <BarChartComp graphData={this.state.deltaGraphData}/>
+                            </div>
+                        </Grid>
                         <Grid xs={12} md={8} item className="pl-2">
                             <div className="d-flex text-left dist-header">
                                 <Typography variant="body1" component="h4" className="col-4">
@@ -239,11 +285,11 @@ class StateDetails extends React.Component {
                                 <Typography variant="body1" component="h4" className="col confirmed-color">
                                     Confirm
                                 </Typography>
-                                <Typography variant="body1" component="h4" className="col death-color">
-                                    Deceased
-                                </Typography>
                                 <Typography variant="body1" component="h4" className="col recovered-color">
                                     Recovered
+                                </Typography>
+                                <Typography variant="body1" component="h4" className="col death-color">
+                                    Deceased
                                 </Typography>
                             </div>
                             {this.state.distdata.map((dist) => (
@@ -266,14 +312,6 @@ class StateDetails extends React.Component {
                                             {dist.confirmed}
                                         </Typography>
                                     </div>
-                                    <div className="col death-bg death-bg-hover">
-                                        <Typography variant="body2" component="small" className="death-light-color d-flex align-center">
-                                            <ArrowUpwardIcon fontSize="small"/> {dist.deltaDeceased}
-                                        </Typography>
-                                        <Typography variant="body1" component="h4" className="death-color">
-                                            {dist.deceased}
-                                        </Typography>
-                                    </div>
                                     <div className="col recovered-bg recovered-bg-hover">
                                         <Typography variant="body2" component="small" className="recovered-light-color d-flex align-center">
                                             <ArrowUpwardIcon fontSize="small"/> {dist.deltaRecovered}
@@ -282,14 +320,19 @@ class StateDetails extends React.Component {
                                             {dist.recovered}
                                         </Typography>
                                     </div>
+                                    <div className="col death-bg death-bg-hover">
+                                        <Typography variant="body2" component="small" className="death-light-color d-flex align-center">
+                                            <ArrowUpwardIcon fontSize="small"/> {dist.deltaDeceased}
+                                        </Typography>
+                                        <Typography variant="body1" component="h4" className="death-color">
+                                            {dist.deceased}
+                                        </Typography>
+                                    </div>
                                     {/* <Typography className="col">
                                         {dist.population}
                                     </Typography> */}
                                 </div>
                             ))}
-                        </Grid>
-                        <Grid xs={12} md={4} item className="pl-2">
-                            <ChartComp graphData={this.state.graphData}/>
                         </Grid>
                     </Grid>
                 </div>

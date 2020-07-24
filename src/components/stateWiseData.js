@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-// import DistrictData from './districtData.js';
-import StateDetails from './stateDetails.js';
+// import StateDetails from './stateDetails.js';
 import { Link } from 'react-router-dom';
 
 import Table from '@material-ui/core/Table';
@@ -104,8 +103,8 @@ const headCells = [
     { id: 'state', numeric: false, label: 'State', width: 140 },
     { id: 'active', numeric: true, label: 'Active', width: 80 },
     { id: 'confirmed', numeric: true, label: 'Confirm', width: 80 },
-    { id: 'deaths', numeric: true, label: 'Death', width: 80 },
     { id: 'recovered', numeric: true, label: 'Recover', width: 80 },
+    { id: 'deaths', numeric: true, label: 'Death', width: 80 },
 ];
 
 function stableSort(array, comparator) {
@@ -197,37 +196,23 @@ export default function CovidDetails() {
     const [dailyConfirmOpts, setDailyConfirmOpts] = useState({});
     const [dailyDeceasedOpts, setDailyDeceasedOpts] = useState({});
     const [dailyRecoveredOpts, setDailyRecoveredOpts] = useState({});
-    // const [openModal, setOpenModal] = useState(false);
-    const [districtData, setDistrictData] = useState([]);
-    // const [district, setDistrict] = useState({});
+    // const [districtData, setDistrictData] = useState([]);
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('name');
     const page = 0;
     const rowsPerPage = stateData.length;
 
-    // const closeModal = () => {
-    //   setOpenModal(false);
-    // }
-
-    // const getDistData = (state) => {
-    //   console.log(districtData);
-    //   districtData[state.state]['statecode'] = state.state;
-    //   setDistrict(districtData[state.state]);
-    //   setOpenModal(true);
-    // }
-
-    const getDisrictData = useCallback(() => {
-      service.getStateData().then(async (res) => {
-        const result  = await res.json();
-        setDistrictData(result);
-      })
-    }, []);
+    // const getDisrictData = useCallback(() => {
+    //   service.getStateData().then(async (res) => {
+    //     const result  = await res.json();
+    //     setDistrictData(result);
+    //   })
+    // }, []);
 
     const getData = useCallback(() => {
         service.getData().then(async (res) => {
             const result  = await res.json();
             const dailyConfirmed = [], dailyDeceased = [], dailyRecovered = [];
-            // setDistrictData(result.statewise);
             setStateData(result.statewise);
             console.log(stateData);
             setDailyCases(result.cases_time_series.slice(result.cases_time_series.length - 15, result.cases_time_series.length));
@@ -373,7 +358,7 @@ export default function CovidDetails() {
 
     useEffect(() => {
       getData();
-      getDisrictData();
+      // getDisrictData();
     }, []);
 
     const handleRequestSort = (event, property) => {
@@ -443,21 +428,21 @@ export default function CovidDetails() {
                                   </Typography>
                                 </TableCell>
                                 <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
-                                  <Typography className="align-center death-light-color" variant="body2" component="p">
-                                    <ArrowUpwardIcon fontSize="small"/>
-                                    {row.deltadeaths}
-                                  </Typography>
-                                  <Typography className="death-color">
-                                    {row.deaths}
-                                  </Typography>
-                                </TableCell>
-                                <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
                                   <Typography className="align-center recovered-light-color" variant="body2" component="p">
                                     <ArrowUpwardIcon fontSize="small"/>
                                     {row.deltarecovered}
                                   </Typography>
                                   <Typography className="recovered-color">
                                     {row.recovered}
+                                  </Typography>
+                                </TableCell>
+                                <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
+                                  <Typography className="align-center death-light-color" variant="body2" component="p">
+                                    <ArrowUpwardIcon fontSize="small"/>
+                                    {row.deltadeaths}
+                                  </Typography>
+                                  <Typography className="death-color">
+                                    {row.deaths}
                                   </Typography>
                                 </TableCell>
                             </TableRow>

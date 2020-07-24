@@ -7,7 +7,6 @@ defaults.global.elements.rectangle.borderRadius = 5;
 export default class ChartComp extends React.Component {
     constructor(props) {
         super(props);
-        // this.chartReference = React.createRef();
         this.chartReference = {};
         this.state = {
             graphData: this.props.graphData,
@@ -17,9 +16,11 @@ export default class ChartComp extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.graphData && nextProps.graphData.title && nextProps.graphData.title.length > 0) {
-            this.setState({graphData: nextProps.graphData});
-            console.log(this.chartReference);
-            this.getFontColor();
+            this.setState({
+                graphData: nextProps.graphData,
+            }, function () {
+                this.getFontColor();
+            }.bind(this));
             if (this.chartReference && this.chartReference.chartInstance) {
                 this.chartReference.chartInstance.update();
             }
@@ -32,8 +33,10 @@ export default class ChartComp extends React.Component {
             color = '#ff073a';
         } else if (this.state.graphData.title === 'recovered') {
             color = '#28a745';
-        } if (this.state.graphData.title === 'deceased') {
+        } else if (this.state.graphData.title === 'deceased') {
             color = '#6c757d';
+        } else {
+            color = '#ff073a';
         }
 
         this.setState({titleColor: color});

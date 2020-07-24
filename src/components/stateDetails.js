@@ -302,7 +302,7 @@ class StateDetails extends React.Component {
                                         </Typography>
                                     </div>
                                     <div className="col confirmed-bg confirmed-bg-hover">
-                                        <Typography variant="body2" component="small" className="confirmed-light-color d-flex align-center">
+                                        <Typography variant="body2" component="small" className="confirmed-light-color d-flex align-center bold">
                                             <ArrowUpwardIcon fontSize="small"/> {dist.deltaConfirmed}
                                         </Typography>
                                         <Typography variant="body1" component="h4" className="confirmed-color">
@@ -310,7 +310,7 @@ class StateDetails extends React.Component {
                                         </Typography>
                                     </div>
                                     <div className="col recovered-bg recovered-bg-hover">
-                                        <Typography variant="body2" component="small" className="recovered-light-color d-flex align-center">
+                                        <Typography variant="body2" component="small" className="recovered-light-color d-flex align-center bold">
                                             <ArrowUpwardIcon fontSize="small"/> {dist.deltaRecovered}
                                         </Typography>
                                         <Typography variant="body1" component="h4" className="recovered-color">
@@ -318,7 +318,7 @@ class StateDetails extends React.Component {
                                         </Typography>
                                     </div>
                                     <div className="col death-bg death-bg-hover">
-                                        <Typography variant="body2" component="small" className="death-light-color d-flex align-center">
+                                        <Typography variant="body2" component="small" className="death-light-color d-flex align-center bold">
                                             <ArrowUpwardIcon fontSize="small"/> {dist.deltaDeceased}
                                         </Typography>
                                         <Typography variant="body1" component="h4" className="death-color">

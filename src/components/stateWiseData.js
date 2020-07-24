@@ -422,7 +422,7 @@ export default function CovidDetails() {
                                   </Typography>
                                 </TableCell>
                                 <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
-                                  <Typography className="align-center confirmed-light-color" variant="body2" component="p">
+                                  <Typography className="align-center confirmed-light-color bold" variant="body2" component="p">
                                     <ArrowUpwardIcon fontSize="small"/>
                                     {row.deltaconfirmed}
                                   </Typography>
@@ -431,7 +431,7 @@ export default function CovidDetails() {
                                   </Typography>
                                 </TableCell>
                                 <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
-                                  <Typography className="align-center recovered-light-color" variant="body2" component="p">
+                                  <Typography className="align-center recovered-light-color bold" variant="body2" component="p">
                                     <ArrowUpwardIcon fontSize="small"/>
                                     {row.deltarecovered}
                                   </Typography>
@@ -440,7 +440,7 @@ export default function CovidDetails() {
                                   </Typography>
                                 </TableCell>
                                 <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
-                                  <Typography className="align-center death-light-color" variant="body2" component="p">
+                                  <Typography className="align-center death-light-color bold" variant="body2" component="p">
                                     <ArrowUpwardIcon fontSize="small"/>
                                     {row.deltadeaths}
                                   </Typography>

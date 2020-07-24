@@ -47,7 +47,7 @@
   .bold {
     font-weight: 700 !important;
     /* background: #cfd8dc; */
-    font-size: 0.75rem!important;
+    /* font-size: 0.75rem!important; */
   }
 
   div[id*="canvasjs-react-chart-container"] {
@@ -112,22 +112,28 @@
   .recovered-bg-hover:hover {
     background: rgba(40, 167, 69, 0.125)!important;
   }
-
-  .death-color {
+  
+  /* .death-color {
     color: #6c757d;
+  } */
+  /* .death-light-color {
+    color: rgba(108, 117, 125, 0.565);
+  } */
+  .death-color {
+    color: #021B79;
   }
   .death-light-color {
-    color: rgba(108, 117, 125, 0.565);
+    color: rgba(2, 27, 121, 0.565);
   }
   .death-bg {
-    background: rgba(108, 117, 125, 0.125);
+    background: rgba(2, 27, 121, 0.125);
     transition: all linear 0.2s;
   }
   .death-bg-hover {
     transition: all linear 0.2s;
   }
   .death-bg-hover:hover {
-    background: rgba(108, 117, 125, 0.125)!important;
+    background: rgba(2, 27, 121, 0.125)!important;
   }
 
   .focus-text-color {

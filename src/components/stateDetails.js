@@ -288,9 +288,9 @@ class StateDetails extends React.Component {
                                 </div>
                             ))}
                         </Grid>
-                        <Grid xs={12} md={4} item className="pl-2">
+                        {/* <Grid xs={12} md={4} item className="pl-2">
                             <ChartComp graphData={this.state.graphData}/>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                 </div>
             </Paper>

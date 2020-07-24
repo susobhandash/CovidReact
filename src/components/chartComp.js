@@ -20,21 +20,21 @@ export default class BarChartComp extends React.Component {
                 graphData: nextProps.graphData,
             }, function () {
                 this.getFontColor();
+                if (this.chartReference && this.chartReference.chartInstance) {
+                    this.chartReference.chartInstance.update();
+                }
             }.bind(this));
-            if (this.chartReference && this.chartReference.chartInstance) {
-                this.chartReference.chartInstance.update();
-            }
         }
     }
 
     getFontColor = () => {
         let color = '';
         if (this.state.graphData.title.indexOf('new cases') == -1) {
-            if (this.state.graphData.title === 'confirmed') {
+            if (this.state.graphData.title === 'total cases: confirmed') {
                 color = '#ff073a';
-            } else if (this.state.graphData.title === 'recovered') {
+            } else if (this.state.graphData.title === 'total cases: recovered') {
                 color = '#28a745';
-            } else if (this.state.graphData.title === 'deceased') {
+            } else if (this.state.graphData.title === 'total cases: deceased') {
                 color = '#6c757d';
             } else {
                 color = '#ff073a';

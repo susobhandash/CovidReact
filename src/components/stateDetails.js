@@ -85,7 +85,7 @@ class StateDetails extends React.Component {
 
     populateDeltaGraphData = () => {
         let graphDataItem = {
-            title: 'Delta ' + this.state.selectedFilter,
+            title: 'new cases: ' + this.state.selectedFilter,
             labels: [],
             datasets: [{
                 data: [],
@@ -115,7 +115,7 @@ class StateDetails extends React.Component {
 
     populateGraphData = () => {
         let graphDataItem = {
-            title: this.state.selectedFilter,
+            title: 'total cases: ' + this.state.selectedFilter,
             labels: [],
             datasets: [{
                 data: [],

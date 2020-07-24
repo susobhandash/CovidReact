@@ -372,6 +372,9 @@ export default function CovidDetails() {
   return (
     <Grid container className={classes.gridRoot} spacing={2}>
       <Grid item xs={12}>
+        <Typography variant="body" component="h4" className="focus-text-light-color mb-1">
+          Covid India Cases
+        </Typography>
         <Grid container justify="center" spacing={2}>
           <Grid xs={12} md={8} item>
             <TableContainer component={Paper} className={classes.container} spacing={2}>

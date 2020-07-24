@@ -29,7 +29,7 @@ export default class BarChartComp extends React.Component {
 
     getFontColor = () => {
         let color = '';
-        if (this.state.graphData.title.indexOf('Delta') == -1) {
+        if (this.state.graphData.title.indexOf('new cases') == -1) {
             if (this.state.graphData.title === 'confirmed') {
                 color = '#ff073a';
             } else if (this.state.graphData.title === 'recovered') {
@@ -61,7 +61,7 @@ export default class BarChartComp extends React.Component {
                             title:{
                                 display:true,
                                 text:this.state.graphData.title,
-                                fontSize:20,
+                                fontSize:16,
                                 fontColor: this.state.titleColor
                             },
                             scales: {

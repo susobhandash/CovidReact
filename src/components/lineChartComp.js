@@ -78,9 +78,6 @@ export default class LineChartComp extends React.Component {
                                     gridLines: {
                                         display: false
                                     },
-                                    ticks: {
-                                        suggestedMin: 0,
-                                    }
                                 }]
                             }
                         }}

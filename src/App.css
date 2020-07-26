@@ -258,13 +258,16 @@
     position: sticky;
     top: 0;
     z-index: 1;
-    background: #fff;
+    background: rgb(227 226 243);
     width: 100%;
+    border-radius: 4px;
+    overflow: hidden;
   }
   .dist-header .col {
-    background: #fff;
+    /* background: #fff; */
     overflow: hidden;
     text-overflow: ellipsis;
+    /* box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5) */
   }
   .dist-body .col-4,
   .dist-body .col,
@@ -272,11 +275,21 @@
   .dist-header .col {
     padding: 4px 8px;
     margin: 2px;
+    font-weight: 600;
+    border-radius: 4px;
   }
   .dist-body .col-4 {
     background-color: rgba(32,26,162,.12549);
     border-radius: 4px;
     color: rgba(32,26,162,.866667);
+    overflow: hidden;
+    /* box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.5) */
+  }
+  .dist-body .col-4 > * {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
   }
   .dist-body:nth-child(even) .col {
     background-color: #fff;
@@ -300,7 +313,7 @@
 
   @media only screen and (max-width: 767px) {
     * {
-      font-size: 99%!important;
+      font-size: 97%!important;
     }
     .MuiTableCell-sizeSmall {
       padding: 4px 2px!important;

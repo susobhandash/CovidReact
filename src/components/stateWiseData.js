@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '0.8rem'
     },
     card: {
-      height: '23vh',
+      maxHeight: '320px',
       // minWidth: '30%',
       // marginRight: '5%'
     },

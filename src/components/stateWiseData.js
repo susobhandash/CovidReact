@@ -14,17 +14,17 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+
+import LineChartComp from './lineChartComp.js';
+
+
 import { green, blue, grey } from '@material-ui/core/colors';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import Typography from '@material-ui/core/Typography';
 
-import CanvasJSReact from '../assets/canvasjs.react';
 import {useService} from '../service/covidService';
-
-var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const { useCallback } = React;
 
@@ -74,7 +74,6 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       alignItems: 'center',
       marginBottom: '1rem',
-      // height: '23vh',
       // padding: 10,
       overflow: 'hidden'
     },
@@ -82,6 +81,7 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '0.8rem'
     },
     card: {
+      height: '23vh',
       // minWidth: '30%',
       // marginRight: '5%'
     },
@@ -217,141 +217,73 @@ export default function CovidDetails() {
             console.log(stateData);
             setDailyCases(result.cases_time_series.slice(result.cases_time_series.length - 15, result.cases_time_series.length));
             const rawData = result.cases_time_series.slice(result.cases_time_series.length - 15, result.cases_time_series.length);
+            let recoveredGraphData = {
+              title: 'Recovered',
+              labels: [],
+              datasets: [{
+                  data: [],
+                  backgroundColor: 'transparent',
+                  borderColor: 'rgba(40, 167, 69, 0.565)',
+                  hoverBackgroundColor: 'transparent',
+                  borderWidth: 3,
+                  barPercentage: 0.5,
+                  pointBorderWidth: 1,
+                  pointRadius: 2
+              }]
+            };
+            let confirmedGraphData = {
+              title: 'Confirmed',
+              labels: [],
+              datasets: [{
+                  data: [],
+                  backgroundColor: 'transparent',
+                  borderColor: 'rgba(255, 7, 58, 0.565)',
+                  hoverBackgroundColor: 'transparent',
+                  borderWidth: 3,
+                  barPercentage: 0.5,
+                  pointBorderWidth: 1,
+                  pointRadius: 2
+              }]
+            };
+            let deceasedGraphData = {
+              title: 'Deceased',
+              labels: [],
+              datasets: [{
+                  data: [],
+                  backgroundColor: 'transparent',
+                  borderColor: 'rgba(2, 27, 121, 0.565)',
+                  hoverBackgroundColor: 'transparent',
+                  borderWidth: 3,
+                  barPercentage: 0.5,
+                  pointBorderWidth: 1,
+                  pointRadius: 2
+              }]
+            };
             rawData.forEach((el) => {
-              dailyConfirmed.push({
-                x: new Date(el['date'] + ' 2020'),
-                y: Number(el['dailyconfirmed'])
-              });
-              dailyDeceased.push({
-                x: new Date(el['date'] + ' 2020'),
-                y: Number(el['dailydeceased'])
-              });
-              dailyRecovered.push({
-                x: new Date(el['date'] + ' 2020'),
-                y: Number(el['dailyrecovered'])
-              });
+              confirmedGraphData.labels.push(el['date']);
+              confirmedGraphData.datasets[0].data.push(el['dailyconfirmed']);
+              // dailyConfirmed.push({
+              //   x: new Date(el['date'] + ' 2020'),
+              //   y: Number(el['dailyconfirmed'])
+              // });
+              deceasedGraphData.labels.push(el['date']);
+              deceasedGraphData.datasets[0].data.push(el['dailydeceased']);
+              // dailyDeceased.push({
+              //   x: new Date(el['date'] + ' 2020'),
+              //   y: Number(el['dailydeceased'])
+              // });
+              recoveredGraphData.labels.push(el['date']);
+              recoveredGraphData.datasets[0].data.push(el['dailyrecovered']);
+              // dailyRecovered.push({
+              //   x: new Date(el['date'] + ' 2020'),
+              //   y: Number(el['dailyrecovered'])
+              // });
             });
-            
-            setDailyRecoveredOpts({
-              animationEnabled: true,
-              exportEnabled: false,
-              theme: "light2", // "light1", "dark1", "dark2"
-              height: document.documentElement.clientHeight * 0.21,
-              title: {
-                text: "Recovered",
-                fontColor: "#28a745",
-                fontSize: 13,
-                fontWeight: "normal",
-              },
-              axisY: {
-                includeZero: false,
-                gridThickness: 0,
-                tickLength: 0,
-                lineThickness: 0,
-                labelFormatter: function(){
-                  return " ";
-                }
-              },
-              axisX: {
-                interval: 7,
-                intervalType: "day",
-                gridThickness: 0,
-                tickLength: 0,
-                lineThickness: 0,
-                labelFormatter: function(){
-                  return " ";
-                }
-              },
-              data: [{
-                type: "spline",
-                markerSize: 0,
-                lineThickness: 2,
-                lineColor: "#28a745",
-                toolTipContent: "{x}: Recovered # {y}",
-                dataPoints: dailyRecovered
-              }]
-            });
+            setDailyRecoveredOpts(recoveredGraphData);
 
-            setDailyDeceasedOpts({
-              animationEnabled: true,
-              exportEnabled: false,
-              theme: "light2", // "light1", "dark1", "dark2"
-              height: document.documentElement.clientHeight * 0.21,
-              title: {
-                text: "Deceased",
-                fontColor: "#6c757d",
-                fontSize: 13,
-                fontWeight: "normal",
-              },
-              axisY: {
-                includeZero: false,
-                gridThickness: 0,
-                tickLength: 0,
-                lineThickness: 0,
-                labelFormatter: function(){
-                  return " ";
-                }
-              },
-              axisX: {
-                interval: 7,
-                intervalType: "day",
-                gridThickness: 0,
-                tickLength: 0,
-                lineThickness: 0,
-                labelFormatter: function(){
-                  return " ";
-                }
-              },
-              data: [{
-                type: "spline",
-                markerSize: 0,
-                lineThickness: 2,
-                lineColor: "#6c757d",
-                toolTipContent: "{x}: Recovered # {y}",
-                dataPoints: dailyDeceased
-              }]
-            });
+            setDailyDeceasedOpts(deceasedGraphData);
 
-            setDailyConfirmOpts({
-              animationEnabled: true,
-              exportEnabled: false,
-              theme: "light2", // "light1", "dark1", "dark2"
-              height: document.documentElement.clientHeight * 0.21,
-              title: {
-                text: "Confirmed",
-                fontColor: "#ff073a",
-                fontSize: 13,
-                fontWeight: "normal",
-              },
-              axisY: {
-                includeZero: false,
-                gridThickness: 0,
-                tickLength: 0,
-                lineThickness: 0,
-                labelFormatter: function(){
-                  return " ";
-                }
-              },
-              axisX: {
-                interval: 7,
-                intervalType: "day",
-                gridThickness: 0,
-                tickLength: 0,
-                lineThickness: 0,
-                labelFormatter: function(){
-                  return " ";
-                }
-              },
-              data: [{
-                type: "spline",
-                markerSize: 0,
-                lineThickness: 2,
-                lineColor: "#ff073a",
-                backgroundColor: 'rgba(255, 7, 58, 0.565)',
-                toolTipContent: "{x}: Confirmed # {y}",
-                dataPoints: dailyConfirmed
-              }]
-            });
+            setDailyConfirmOpts(confirmedGraphData);
         });
         
     }, []);
@@ -372,7 +304,7 @@ export default function CovidDetails() {
   return (
     <Grid container className={classes.gridRoot} spacing={2}>
       <Grid item xs={12}>
-        <Typography variant="body" component="h4" className="focus-text-light-color mb-1">
+        <Typography variant="h5" component="h5" className="focus-text-color mb-1">
           Covid India Cases
         </Typography>
         <Grid container justify="center" spacing={2}>
@@ -462,24 +394,24 @@ export default function CovidDetails() {
           </Grid>
           <Grid xs={12} md={4} item>
             <Grid container className={classes.chartHolder} spacing={2}>
-              <Grid xs={4} md={12} item>
+              <Grid xs={12} md={12} item>
                 <Card className={classes.card}>
                   <CardContent>
-                    <CanvasJSChart options = {dailyConfirmOpts} />
+                    <LineChartComp graphData={dailyConfirmOpts}/>
                   </CardContent>
                 </Card>  
               </Grid>
-              <Grid xs={4} md={12} item>
+              <Grid xs={12} md={12} item>
                 <Card className={classes.card}>
                   <CardContent>
-                    <CanvasJSChart options = {dailyRecoveredOpts} />
+                    <LineChartComp graphData={dailyRecoveredOpts}/>
                   </CardContent>
                 </Card>  
               </Grid>
-              <Grid xs={4} md={12} item>
+              <Grid xs={12} md={12} item>
                 <Card className={classes.card}>
                   <CardContent>
-                    <CanvasJSChart options = {dailyDeceasedOpts} />
+                    <LineChartComp graphData={dailyDeceasedOpts}/>
                   </CardContent>
                 </Card>
               </Grid>

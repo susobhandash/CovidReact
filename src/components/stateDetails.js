@@ -171,11 +171,11 @@ class StateDetails extends React.Component {
                         </Typography>
                     </div>
                     <Grid container className="d-flex text-center" spacing={0}>
-                        <Grid xs={12} md={4} item>
+                        <Grid xs={12} md={6} item>
                             <Grid container className="no-gutters" spacing={2}>
                                 <Grid xs={3} item>
                                     <div className="active-bg-hover br-5 text-center c-p p-2">
-                                        <Typography variant="body2" component="p" className="active-color">
+                                        <Typography variant="body2" component="h6" className="active-color">
                                             Active
                                         </Typography>
                                         <Typography variant="body2" component="small" className="active-light-color align-center">
@@ -203,7 +203,7 @@ class StateDetails extends React.Component {
                                                 this.populateDeltaGraphData();
                                             }.bind(this));
                                         }} >
-                                        <Typography variant="body2" component="p" className="confirmed-color">
+                                        <Typography variant="body2" component="h6" className="confirmed-color">
                                             Confirmed
                                         </Typography>
                                         <Typography variant="body2" component="small" className="confirmed-light-color align-center">
@@ -225,7 +225,7 @@ class StateDetails extends React.Component {
                                                 this.populateDeltaGraphData();
                                             }.bind(this));
                                         }} >
-                                        <Typography variant="body2" component="p" className="recovered-color">
+                                        <Typography variant="body2" component="h6" className="recovered-color">
                                             Recovered
                                         </Typography>
                                         <Typography variant="body2" component="small" className="recovered-light-color align-center">
@@ -247,7 +247,7 @@ class StateDetails extends React.Component {
                                                 this.populateDeltaGraphData();
                                             }.bind(this));
                                         }} >
-                                        <Typography variant="body2" component="p" className="death-color">
+                                        <Typography variant="body2" component="h6" className="death-color">
                                             Deceased
                                         </Typography>
                                         <Typography variant="body2" component="small" className="death-light-color align-center">

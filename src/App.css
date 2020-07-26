@@ -1,3 +1,16 @@
+  @font-face {
+    font-family: 'archia';
+    /* src: url(assets/fonts/archia-regular-webfont.woff); */
+    src: url('assets/fonts/archia-regular-webfont.eot');
+	  src: url('assets/fonts/archia-regular-webfont.eot?#iefix') format('embedded-opentype'),
+	     url('assets/fonts/archia-regular-webfont.woff') format('woff'),
+	     url('assets/fonts/archia-regular-webfont.ttf') format('truetype');
+  }
+
+  body, * {
+    font-family: archia!important;
+  }
+
   .App {
     text-align: center;
     display: flex;
@@ -35,6 +48,16 @@
     color: #61dafb;
   }
 
+  a {
+    text-decoration: none;
+    color: #007bff!important;
+    font-weight: 600;
+  }
+
+  a:hover {
+    color: #0366d6!important;
+  }
+
   @keyframes App-logo-spin {
     from {
       transform: rotate(0deg);
@@ -60,6 +83,12 @@
     justify-content: space-between;
   }
 
+  h6.MuiTypography-body2 {
+    font-weight: 600;
+  }
+  h5.MuiTypography-h5 {
+    font-weight: 600;
+  }
 
   /* Color Codes */
   .confirmed-color {
@@ -271,18 +300,18 @@
 
   @media only screen and (max-width: 767px) {
     * {
-      font-size: 97%!important;
+      font-size: 99%!important;
     }
     .MuiTableCell-sizeSmall {
       padding: 4px 2px!important;
     }
     
-    .MuiTableCell-head {
+    /* .MuiTableCell-head {
       font-size: 0.7rem!important;
       line-height: 1!important;
-    }
+    } */
 
-    .p-2 {
+    /* .p-2 {
       padding: 0.1rem;
-    }
+    } */
   }

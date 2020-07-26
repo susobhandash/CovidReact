@@ -3,6 +3,7 @@ import {Bar, defaults} from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 
 defaults.global.elements.rectangle.borderRadius = 5;
+defaults.global.defaultFontFamily = "'archia'";
 
 export default class BarChartComp extends React.Component {
     constructor(props) {

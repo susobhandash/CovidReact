@@ -63,9 +63,10 @@ class StateDetails extends React.Component {
                         total: {},
                         delta: {}
                     };
-                    const desiredYear = date.getFullYear();
-                    const desiredMonth = (date.getMonth()+1).toString().length === 1 ? '0' + (date.getMonth()+1) : date.getMonth()+1;
-                    const desiredDate = (date.getDate()-i).toString().length === 1 ? '0' + (date.getDate()-i) : date.getDate()-i;
+                    const dateToSet = new Date(date.setDate(date.getDate() - i));
+                    const desiredYear = dateToSet.getFullYear();
+                    const desiredMonth = (dateToSet.getMonth()+1).toString().length === 1 ? '0' + (dateToSet.getMonth()+1) : dateToSet.getMonth()+1;
+                    const desiredDate = (dateToSet.getDate()).toString().length === 1 ? '0' + (dateToSet.getDate()) : dateToSet.getDate();
                     const desiredFullDate = desiredYear + '-' + desiredMonth + '-' + desiredDate;
                     dataItem.date = desiredFullDate;
                     if (data[desiredFullDate]) {

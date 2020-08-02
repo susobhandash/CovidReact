@@ -64,7 +64,7 @@ class StateDetails extends React.Component {
                         total: {},
                         delta: {}
                     };
-                    const dateToSet = new Date(date.setDate(date.getDate() - i));
+                    const dateToSet = new Date(date.setDate(date.getDate() - 1));
                     const desiredYear = dateToSet.getFullYear();
                     const desiredMonth = (dateToSet.getMonth()+1).toString().length === 1 ? '0' + (dateToSet.getMonth()+1) : dateToSet.getMonth()+1;
                     const desiredDate = (dateToSet.getDate()).toString().length === 1 ? '0' + (dateToSet.getDate()) : dateToSet.getDate();

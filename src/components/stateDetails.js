@@ -5,9 +5,10 @@ import BarChartComp from './chartComp.js';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import Tooltip from '@material-ui/core/Tooltip';
+import Fab from '@material-ui/core/Fab';
 
 class StateDetails extends React.Component {
     state = {
@@ -163,12 +164,14 @@ class StateDetails extends React.Component {
                         <Link to={{
                             pathname: '/'
                         }}>
-                            <IconButton color="secondary" aria-label="Back to Home Page" className="col">
-                                <KeyboardBackspaceIcon fontSize="small"/>
-                            </IconButton>
+                            <Tooltip title="Back to Home Page" placement="right">
+                                <Fab size="small" color="primary" className="col">
+                                    <KeyboardBackspaceIcon fontSize="small"/>
+                                </Fab>
+                            </Tooltip>
                         </Link>
                         <Typography variant="h5" component="h5" className="col focus-text-color">
-                        {this.state.stateName} ({this.state.statecode})
+                            {this.state.stateName} ({this.state.statecode})
                         </Typography>
                     </div>
                     <Grid container className="d-flex text-center" spacing={0}>
@@ -266,6 +269,49 @@ class StateDetails extends React.Component {
                     <Grid container className="d-flex text-center dist-data" spacing={0}>
                         <Grid xs={12} md={4} item>
                             <div className="p-2">
+                                <Grid container className="d-flex text-center dist-data" spacing={0}>
+                                    <Grid xs={4} md={4} item>
+                                        <Typography className="active-color" variant="body2" component="small">
+                                            Active %
+                                        </Typography>
+                                        <Tooltip title="(Total Active / Total Confirmed) * 100" placement="top">
+                                            <Typography className="active-color" variant="body2" component="h6">
+                                                {
+                                                    Math.round((((this.state.stateData.total?.confirmed ? this.state.stateData.total?.confirmed : 0) 
+                                                    - (this.state.stateData.total?.deceased ? this.state.stateData.total?.deceased : 0) 
+                                                    - (this.state.stateData.total?.recovered ? this.state.stateData.total?.recovered : 0) 
+                                                    - (this.state.stateData.total?.migrated ? this.state.stateData.total?.migrated : 0)) / this.state.stateData.total?.confirmed) * 100)
+                                                } %
+                                            </Typography>
+                                        </Tooltip>
+                                    </Grid>
+                                    <Grid xs={4} md={4} item>
+                                        <Typography className="recovered-color" variant="body2" component="small">
+                                            Recovered %
+                                        </Typography>
+                                        <Tooltip title="(Total Recovered / Total Confirmed) * 100" placement="top">
+                                            <Typography className="recovered-color" variant="body2" component="h6">
+                                                {
+                                                    Math.round(((this.state.stateData.total?.recovered ? this.state.stateData.total?.recovered : 0) / this.state.stateData.total?.confirmed) * 100)
+                                                } %
+                                            </Typography>
+                                        </Tooltip>
+                                    </Grid>
+                                    <Grid xs={4} md={4} item>
+                                        <Typography className="death-color" variant="body2" component="small">
+                                            Deceased %
+                                        </Typography>
+                                        <Tooltip title="(Total Deceased / Total Confirmed) * 100" placement="top">
+                                            <Typography className="death-color" variant="body2" component="h6">
+                                                {
+                                                    Math.round(((this.state.stateData.total?.deceased ? this.state.stateData.total?.deceased : 0)  / this.state.stateData.total?.confirmed) * 100)
+                                                } %
+                                            </Typography>
+                                        </Tooltip>
+                                    </Grid>
+                                </Grid>
+                            </div>
+                            <div className="p-2">
                                 <BarChartComp graphData={this.state.graphData}/>
                             </div>
                             <div className="p-2">
@@ -293,9 +339,11 @@ class StateDetails extends React.Component {
                             {this.state.distdata.map((dist) => (
                                 <div className="d-flex text-left dist-body" key={dist.name}>
                                     <div className="align-center col-4 d-inline-flex">
-                                        <Typography variant="body1" component="h4">
-                                            {dist.name}
-                                        </Typography>
+                                        <Tooltip title={dist.name} placement="right">
+                                            <Typography variant="body1" component="h4">
+                                                {dist.name}
+                                            </Typography>
+                                        </Tooltip>
                                     </div>
                                     <div className="align-center col d-inline-flex active-bg active-bg-hover">
                                         <Typography variant="body1" component="h4" className="active-color">

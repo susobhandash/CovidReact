@@ -46,7 +46,7 @@ class StateDetails extends React.Component {
                     x.deltaRecovered = stateData.districts[e].delta && stateData.districts[e].delta.recovered ? stateData.districts[e].delta.recovered : 0;
                     x.population = stateData.districts[e].meta && stateData.districts[e].meta.population ? stateData.districts[e].meta.population : 0;
 
-                    data.push(x);
+                    return data.push(x);
                 });
                 this.setState({distdata: data});
             }
@@ -108,9 +108,9 @@ class StateDetails extends React.Component {
         
         graphDataItem.datasets[0].borderWidth = 0;
         graphDataItem.datasets[0].barPercentage = 0.5;
-        graphDataItem.datasets[0].backgroundColor = 'rgba(32,26,162,.12549)';
+        graphDataItem.datasets[0].backgroundColor = 'rgba(32,26,162,.25)';
         graphDataItem.datasets[0].borderColor = 'rgba(32,26,162,.866667)';
-        graphDataItem.datasets[0].hoverBackgroundColor = 'rgba(32,26,162,0.565)';
+        graphDataItem.datasets[0].hoverBackgroundColor = 'rgba(32,26,162,.866667)';
         
         this.setState({deltaGraphData: graphDataItem});
     }
@@ -136,17 +136,17 @@ class StateDetails extends React.Component {
             graphDataItem.datasets[0].data.push(el.total[this.state.selectedFilter]);
         });
         if (this.state.selectedFilter === 'confirmed') {
-            backgroundColor = 'rgba(255, 7, 58, 0.125)';
+            backgroundColor = 'rgba(255, 7, 58, 0.25)';
             borderColor = '#ff073a';
-            hoverBackgroundColor = 'rgba(255, 7, 58, 0.565)';
+            hoverBackgroundColor = 'rgba(255, 7, 58, 1)';
         } else if (this.state.selectedFilter === 'deceased') {
-            backgroundColor = 'rgba(108, 117, 125, 0.125)';
+            backgroundColor = 'rgba(108, 117, 125, 0.25)';
             borderColor = '#6c757d';
-            hoverBackgroundColor = 'rgba(108, 117, 125, 0.565)';
+            hoverBackgroundColor = 'rgba(108, 117, 125, 1)';
         } else {
-            backgroundColor = 'rgba(40, 167, 69, 0.125)';
+            backgroundColor = 'rgba(40, 167, 69, 0.25)';
             borderColor = '#28a745';
-            hoverBackgroundColor = 'rgba(40, 167, 69, 0.565)';
+            hoverBackgroundColor = 'rgba(40, 167, 69, 1)';
         }
         graphDataItem.datasets[0].borderWidth = 0;
         graphDataItem.datasets[0].barPercentage = 0.5;
@@ -270,44 +270,50 @@ class StateDetails extends React.Component {
                         <Grid xs={12} md={4} item>
                             <div className="p-2">
                                 <Grid container className="d-flex text-center dist-data" spacing={0}>
-                                    <Grid xs={4} md={4} item>
-                                        <Typography className="active-color" variant="body2" component="small">
-                                            Active %
-                                        </Typography>
-                                        <Tooltip title="(Total Active / Total Confirmed) * 100" placement="top">
-                                            <Typography className="active-color" variant="body2" component="h6">
-                                                {
-                                                    Math.round((((this.state.stateData.total?.confirmed ? this.state.stateData.total?.confirmed : 0) 
-                                                    - (this.state.stateData.total?.deceased ? this.state.stateData.total?.deceased : 0) 
-                                                    - (this.state.stateData.total?.recovered ? this.state.stateData.total?.recovered : 0) 
-                                                    - (this.state.stateData.total?.migrated ? this.state.stateData.total?.migrated : 0)) / this.state.stateData.total?.confirmed) * 100)
-                                                } %
+                                    <Grid xs={4} md={4} item className="p-2">
+                                        <div className="active-bg pt-1 pb-1 br-5">
+                                            <Typography className="active-color" variant="body2" component="small">
+                                                Active
                                             </Typography>
-                                        </Tooltip>
+                                            <Tooltip title="(Total Active / Total Confirmed) * 100" placement="top">
+                                                <Typography className="active-color" variant="body2" component="h6">
+                                                    {
+                                                        Math.round((((this.state.stateData.total?.confirmed ? this.state.stateData.total?.confirmed : 0) 
+                                                        - (this.state.stateData.total?.deceased ? this.state.stateData.total?.deceased : 0) 
+                                                        - (this.state.stateData.total?.recovered ? this.state.stateData.total?.recovered : 0) 
+                                                        - (this.state.stateData.total?.migrated ? this.state.stateData.total?.migrated : 0)) / this.state.stateData.total?.confirmed) * 100)
+                                                    } %
+                                                </Typography>
+                                            </Tooltip>
+                                        </div>
                                     </Grid>
-                                    <Grid xs={4} md={4} item>
-                                        <Typography className="recovered-color" variant="body2" component="small">
-                                            Recovered %
-                                        </Typography>
-                                        <Tooltip title="(Total Recovered / Total Confirmed) * 100" placement="top">
-                                            <Typography className="recovered-color" variant="body2" component="h6">
-                                                {
-                                                    Math.round(((this.state.stateData.total?.recovered ? this.state.stateData.total?.recovered : 0) / this.state.stateData.total?.confirmed) * 100)
-                                                } %
+                                    <Grid xs={4} md={4} item className="p-2">
+                                        <div className="recovered-bg pt-1 pb-1 br-5">
+                                            <Typography className="recovered-color" variant="body2" component="small">
+                                                Recovered
                                             </Typography>
-                                        </Tooltip>
+                                            <Tooltip title="(Total Recovered / Total Confirmed) * 100" placement="top">
+                                                <Typography className="recovered-color" variant="body2" component="h6">
+                                                    {
+                                                        Math.round(((this.state.stateData.total?.recovered ? this.state.stateData.total?.recovered : 0) / this.state.stateData.total?.confirmed) * 100)
+                                                    } %
+                                                </Typography>
+                                            </Tooltip>
+                                        </div>
                                     </Grid>
-                                    <Grid xs={4} md={4} item>
-                                        <Typography className="death-color" variant="body2" component="small">
-                                            Deceased %
-                                        </Typography>
-                                        <Tooltip title="(Total Deceased / Total Confirmed) * 100" placement="top">
-                                            <Typography className="death-color" variant="body2" component="h6">
-                                                {
-                                                    Math.round(((this.state.stateData.total?.deceased ? this.state.stateData.total?.deceased : 0)  / this.state.stateData.total?.confirmed) * 100)
-                                                } %
+                                    <Grid xs={4} md={4} item className="p-2">
+                                        <div className="death-bg pt-1 pb-1 br-5">
+                                            <Typography className="death-color" variant="body2" component="small">
+                                                Deceased
                                             </Typography>
-                                        </Tooltip>
+                                            <Tooltip title="(Total Deceased / Total Confirmed) * 100" placement="top">
+                                                <Typography className="death-color" variant="body2" component="h6">
+                                                    {
+                                                        Math.round(((this.state.stateData.total?.deceased ? this.state.stateData.total?.deceased : 0)  / this.state.stateData.total?.confirmed) * 100)
+                                                    } %
+                                                </Typography>
+                                            </Tooltip>
+                                        </div>
                                     </Grid>
                                 </Grid>
                             </div>

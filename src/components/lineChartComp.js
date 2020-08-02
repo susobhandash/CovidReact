@@ -30,7 +30,7 @@ export default class LineChartComp extends React.Component {
 
     getFontColor = () => {
         let color = '';
-        if (this.state.graphData.title.indexOf('Delta') == -1) {
+        if (this.state.graphData.title.indexOf('Delta') === -1) {
             if (this.state.graphData.title === 'Confirmed') {
                 color = '#ff073a';
             } else if (this.state.graphData.title === 'Recovered') {

@@ -196,23 +196,15 @@ export default function CovidDetails() {
     const [dailyConfirmOpts, setDailyConfirmOpts] = useState({});
     const [dailyDeceasedOpts, setDailyDeceasedOpts] = useState({});
     const [dailyRecoveredOpts, setDailyRecoveredOpts] = useState({});
-    // const [districtData, setDistrictData] = useState([]);
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('name');
     const page = 0;
     const rowsPerPage = stateData.length;
 
-    // const getDisrictData = useCallback(() => {
-    //   service.getStateData().then(async (res) => {
-    //     const result  = await res.json();
-    //     setDistrictData(result);
-    //   })
-    // }, []);
-
     const getData = useCallback(() => {
         service.getData().then(async (res) => {
             const result  = await res.json();
-            const dailyConfirmed = [], dailyDeceased = [], dailyRecovered = [];
+            // const dailyConfirmed = [], dailyDeceased = [], dailyRecovered = [];
             setStateData(result.statewise);
             console.log(stateData);
             setDailyCases(result.cases_time_series.slice(result.cases_time_series.length - 15, result.cases_time_series.length));
@@ -262,22 +254,10 @@ export default function CovidDetails() {
             rawData.forEach((el) => {
               confirmedGraphData.labels.push(el['date']);
               confirmedGraphData.datasets[0].data.push(el['dailyconfirmed']);
-              // dailyConfirmed.push({
-              //   x: new Date(el['date'] + ' 2020'),
-              //   y: Number(el['dailyconfirmed'])
-              // });
               deceasedGraphData.labels.push(el['date']);
               deceasedGraphData.datasets[0].data.push(el['dailydeceased']);
-              // dailyDeceased.push({
-              //   x: new Date(el['date'] + ' 2020'),
-              //   y: Number(el['dailydeceased'])
-              // });
               recoveredGraphData.labels.push(el['date']);
               recoveredGraphData.datasets[0].data.push(el['dailyrecovered']);
-              // dailyRecovered.push({
-              //   x: new Date(el['date'] + ' 2020'),
-              //   y: Number(el['dailyrecovered'])
-              // });
             });
             setDailyRecoveredOpts(recoveredGraphData);
 
@@ -290,7 +270,6 @@ export default function CovidDetails() {
 
     useEffect(() => {
       getData();
-      // getDisrictData();
     }, []);
 
     const handleRequestSort = (event, property) => {
@@ -329,14 +308,8 @@ export default function CovidDetails() {
                                 key={row.state}
                                 className={classes.altRows}
                             >
-                                {/* <TableCell component="th" id={labelId} scope="row">
-                                    {row.state}
-                                </TableCell> */}
                                 <TableCell align="left" className={row.state === 'Total' ? 'bold' : ''}>
                                   <Typography className={classes.stateNames} color="secondary">
-                                    {/* <Avatar className={classes.green}>
-                                      <SearchIcon fontSize="small"/>
-                                    </Avatar> */}
                                     <Link to={{
                                       pathname: '/StateDetails',
                                       state: {
@@ -419,9 +392,6 @@ export default function CovidDetails() {
           </Grid>
         </Grid>
       </Grid>
-      {/* <Grid item xs={12}>
-        <DistrictData district={district} open={openModal} closeModal={closeModal}/>
-      </Grid> */}
     </Grid>
   );
 }

@@ -232,8 +232,20 @@
   .p-2 {
     padding: 1rem;
   }
+  .p-1 {
+    padding: 0.5rem;
+  }
+  .m-1 {
+    margin: 0.5rem;
+  }
   .pl-2 {
     padding-left: 1rem;
+  }
+  .pt-1 {
+    padding-top: 0.5rem;
+  }
+  .pb-1 {
+    padding-bottom: 0.5rem;
   }
   .mb-1 {
     margin-bottom: 0.5rem !important;
@@ -294,7 +306,6 @@
   .dist-body:nth-child(even) .col {
     background-color: #fff;
     border-radius: 4px;
-    cursor: pointer;
   }
 
 

@@ -326,41 +326,62 @@ class StateDetails extends React.Component {
                                 <Grid container className="d-flex text-center dist-data" spacing={0}>
                                     <Grid xs={12} md={12} item>
                                         <Typography className="focus-text-color" variant="h6" component="strong">
-                                            per 100000 population
+                                            per 10,00,000 population
                                         </Typography>
                                     </Grid>
-                                    <Grid xs={4} md={4} item className="p-2">
-                                        <div className="confirmed-bg pt-1 pb-1 br-5">
-                                            <Typography className="confirmed-color" variant="body2" component="small">
+                                    <Grid xs={6} md={3} item className="p-2 pb-0">
+                                        <div className="active-bg pt-1 pb-1 br-5">
+                                            <Typography className="active-color" variant="body2" component="small">
                                                 Active
                                             </Typography>
                                             <Tooltip title="(Total Confirmed / State Population) * 100000" placement="top">
-                                                <Typography className="confirmed-color" variant="body2" component="h6">
-                                                    {Math.round(( this.state.stateData.total?.confirmed / this.state.stateData.meta?.population) * 1000000)}
+                                                <Typography className="active-color" variant="body2" component="h6">
+                                                {
+                                                    Math.round((((this.state.stateData.total?.confirmed ? this.state.stateData.total?.confirmed : 0) 
+                                                    - (this.state.stateData.total?.deceased ? this.state.stateData.total?.deceased : 0) 
+                                                    - (this.state.stateData.total?.recovered ? this.state.stateData.total?.recovered : 0) 
+                                                    - (this.state.stateData.total?.migrated ? this.state.stateData.total?.migrated : 0)) / this.state.stateData.meta?.population) * 1000000)
+                                                }
+                                                {/* {this.state.stateData.meta?.population} */}
                                                 </Typography>
                                             </Tooltip>
                                         </div>
                                     </Grid>
-                                    <Grid xs={4} md={4} item className="p-2">
+                                    <Grid xs={6} md={3} item className="p-2 pb-0">
+                                        <div className="confirmed-bg pt-1 pb-1 br-5">
+                                            <Typography className="confirmed-color" variant="body2" component="small">
+                                                Confirmed
+                                            </Typography>
+                                            <Tooltip title="(Total Confirmed / State Population) * 100000" placement="top">
+                                                <Typography className="confirmed-color" variant="body2" component="h6">
+                                                    {Math.round(( this.state.stateData.total?.confirmed / this.state.stateData.meta?.population) * 1000000)}
+                                                    {/* {this.state.stateData.total?.confirmed} */}
+                                                </Typography>
+                                            </Tooltip>
+                                        </div>
+                                    </Grid>
+                                    <Grid xs={6} md={3} item className="p-2 pb-0">
                                         <div className="recovered-bg pt-1 pb-1 br-5">
                                             <Typography className="recovered-color" variant="body2" component="small">
                                                 Recovered
                                             </Typography>
                                             <Tooltip title="(Total Recovered / State Population) * 100000" placement="top">
                                                 <Typography className="recovered-color" variant="body2" component="h6">
-                                                    {Math.round(((this.state.stateData.total?.recovered ? this.state.stateData.total?.recovered : 0) / this.state.stateData.meta?.population) * 1000000)}
+                                                    {Math.round((this.state.stateData.total?.recovered / this.state.stateData.meta?.population) * 1000000)} 
+                                                    {/* {this.state.stateData.total?.recovered} */}
                                                 </Typography>
                                             </Tooltip>
                                         </div>
                                     </Grid>
-                                    <Grid xs={4} md={4} item className="p-2">
+                                    <Grid xs={6} md={3} item className="p-2 pb-0">
                                         <div className="death-bg pt-1 pb-1 br-5">
                                             <Typography className="death-color" variant="body2" component="small">
                                                 Deceased
                                             </Typography>
                                             <Tooltip title="(Total Deceased / State Population) * 100000" placement="top">
                                                 <Typography className="death-color" variant="body2" component="h6">
-                                                {Math.round(((this.state.stateData.total?.deceased ? this.state.stateData.total?.deceased : 0) / this.state.stateData.meta?.population) * 1000000)}
+                                                    {Math.round((this.state.stateData.total?.deceased / this.state.stateData.meta?.population) * 1000000)} 
+                                                    {/* {this.state.stateData.total?.deceased} */}
                                                 </Typography>
                                             </Tooltip>
                                         </div>

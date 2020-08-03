@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import InfoIcon from '@material-ui/icons/Info';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 
@@ -267,9 +268,14 @@ class StateDetails extends React.Component {
                         </Grid>
                     </Grid>
                     <Grid container className="d-flex text-center dist-data" spacing={0}>
-                        <Grid xs={12} md={4} item>
-                            <div className="p-2">
+                        <Grid xs={12} md={4} item className="mt--2">
+                            <div className="p-2 mt--2">
                                 <Grid container className="d-flex text-center dist-data" spacing={0}>
+                                    <Grid xs={12} md={12} item>
+                                        <Typography className="focus-text-color" variant="h6" component="strong">
+                                            case percentages
+                                        </Typography>
+                                    </Grid>
                                     <Grid xs={4} md={4} item className="p-2">
                                         <div className="active-bg pt-1 pb-1 br-5">
                                             <Typography className="active-color" variant="body2" component="small">
@@ -296,7 +302,8 @@ class StateDetails extends React.Component {
                                                 <Typography className="recovered-color" variant="body2" component="h6">
                                                     {
                                                         Math.round(((this.state.stateData.total?.recovered ? this.state.stateData.total?.recovered : 0) / this.state.stateData.total?.confirmed) * 100)
-                                                    } %
+                                                    } % 
+                                                    {/* {this.state.stateData.meta?.population} */}
                                                 </Typography>
                                             </Tooltip>
                                         </div>
@@ -316,12 +323,71 @@ class StateDetails extends React.Component {
                                         </div>
                                     </Grid>
                                 </Grid>
+                                <Grid container className="d-flex text-center dist-data" spacing={0}>
+                                    <Grid xs={12} md={12} item>
+                                        <Typography className="focus-text-color" variant="h6" component="strong">
+                                            per 100000 population
+                                        </Typography>
+                                    </Grid>
+                                    <Grid xs={4} md={4} item className="p-2">
+                                        <div className="confirmed-bg pt-1 pb-1 br-5">
+                                            <Typography className="confirmed-color" variant="body2" component="small">
+                                                Active
+                                            </Typography>
+                                            <Tooltip title="(Total Confirmed / State Population) * 100000" placement="top">
+                                                <Typography className="confirmed-color" variant="body2" component="h6">
+                                                    {Math.round(( this.state.stateData.total?.confirmed / this.state.stateData.meta?.population) * 1000000)}
+                                                </Typography>
+                                            </Tooltip>
+                                        </div>
+                                    </Grid>
+                                    <Grid xs={4} md={4} item className="p-2">
+                                        <div className="recovered-bg pt-1 pb-1 br-5">
+                                            <Typography className="recovered-color" variant="body2" component="small">
+                                                Recovered
+                                            </Typography>
+                                            <Tooltip title="(Total Recovered / State Population) * 100000" placement="top">
+                                                <Typography className="recovered-color" variant="body2" component="h6">
+                                                    {Math.round(((this.state.stateData.total?.recovered ? this.state.stateData.total?.recovered : 0) / this.state.stateData.meta?.population) * 1000000)}
+                                                </Typography>
+                                            </Tooltip>
+                                        </div>
+                                    </Grid>
+                                    <Grid xs={4} md={4} item className="p-2">
+                                        <div className="death-bg pt-1 pb-1 br-5">
+                                            <Typography className="death-color" variant="body2" component="small">
+                                                Deceased
+                                            </Typography>
+                                            <Tooltip title="(Total Deceased / State Population) * 100000" placement="top">
+                                                <Typography className="death-color" variant="body2" component="h6">
+                                                {Math.round(((this.state.stateData.total?.deceased ? this.state.stateData.total?.deceased : 0) / this.state.stateData.meta?.population) * 1000000)}
+                                                </Typography>
+                                            </Tooltip>
+                                        </div>
+                                    </Grid>
+                                </Grid>
                             </div>
-                            <div className="p-2">
+                            <div className="mt--2">
                                 <BarChartComp graphData={this.state.graphData}/>
                             </div>
-                            <div className="p-2">
+                            <div className="mt--2">
                                 <BarChartComp graphData={this.state.deltaGraphData}/>
+                            </div>
+                            <div className="p-2">
+                                <div className="br-5 focus-text-bg p-2">
+                                    <Typography className="focus-text-color text-left" variant="h6" component="strong">
+                                        Notes
+                                    </Typography>
+                                    <Typography className="focus-text-color break-spaces text-left" variant="body2" component="p">
+                                        {this.state.stateData.meta?.notes}
+                                    </Typography>
+                                </div>
+                            </div>
+                            <div className="mt--1 text-left pl-2 pb-2">
+                                <Typography className="recovered-color d-flex align-center" variant="body2" component="p">
+                                    <InfoIcon className="pr-1"/>
+                                    Updated as on {this.state.stateData.meta?.last_updated}
+                                </Typography>
                             </div>
                         </Grid>
                         <Grid xs={12} md={8} item className="pl-2">

@@ -50,7 +50,7 @@ export default class BarChartComp extends React.Component {
     checkAndRender = () => {
         if (this.state.graphData.title && this.state.graphData.title.length > 0) {
             return (
-                <div className="p-2">
+                <div className="p-2 mt--2">
                     <Bar
                         ref={ (reference) => this.chartReference = reference}
                         data={this.state.graphData}

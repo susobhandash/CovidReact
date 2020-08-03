@@ -115,7 +115,7 @@
     color: rgba(0, 123, 255, 0.565);
   }
   .active-bg {
-    background: rgba(0, 123, 255, 0.125);
+    background: rgba(0, 123, 255, 0.0627451);
     transition: all linear 0.2s;
   }
   .active-bg-hover {
@@ -132,7 +132,7 @@
     color: rgba(40, 167, 69, 0.565);
   }
   .recovered-bg {
-    background: rgba(40, 167, 69, 0.125);
+    background: rgba(40, 167, 69, 0.0627451);
     transition: all linear 0.2s;
   }
   .recovered-bg-hover {
@@ -155,7 +155,7 @@
     color: rgba(2, 27, 121, 0.565);
   }
   .death-bg {
-    background: rgba(2, 27, 121, 0.125);
+    background: rgba(2, 27, 121, 0.0627451);
     transition: all linear 0.2s;
   }
   .death-bg-hover {

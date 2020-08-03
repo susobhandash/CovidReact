@@ -105,6 +105,9 @@ const headCells = [
     { id: 'confirmed', numeric: true, label: 'Confirm', width: 80 },
     { id: 'recovered', numeric: true, label: 'Recover', width: 80 },
     { id: 'deaths', numeric: true, label: 'Death', width: 80 },
+    { id: 'activePer', numeric: true, label: 'Act%', width: 80 },
+    { id: 'recoveredPer', numeric: true, label: 'Rec%', width: 80 },
+    { id: 'deathPer', numeric: true, label: 'Dth%', width: 80 },
 ];
 
 function stableSort(array, comparator) {
@@ -205,6 +208,12 @@ export default function CovidDetails() {
         service.getData().then(async (res) => {
             const result  = await res.json();
             // const dailyConfirmed = [], dailyDeceased = [], dailyRecovered = [];
+            let stateWise = result.statewise;
+            stateWise.forEach((e,i,a) => {
+              e.activePer = e.active !== "0" && e.confirmed !== "0" ? Math.round((e.active/e.confirmed)*100) : '0';
+              e.recoveredPer = e.recovered !== "0" && e.confirmed !== "0" ? Math.round((e.recovered/e.confirmed)*100) : '0';
+              e.deathPer = e.deaths !== "0" && e.confirmed !== "0" ? Math.round((e.deaths/e.confirmed)*100) : '0';
+            });
             setStateData(result.statewise);
             console.log(stateData);
             setDailyCases(result.cases_time_series.slice(result.cases_time_series.length - 15, result.cases_time_series.length));
@@ -351,6 +360,21 @@ export default function CovidDetails() {
                                   </Typography>
                                   <Typography className="death-color">
                                     {row.deaths}
+                                  </Typography>
+                                </TableCell>
+                                <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
+                                  <Typography className="active-color">
+                                    {row.activePer} %
+                                  </Typography>
+                                </TableCell>
+                                <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
+                                  <Typography className="recovered-color">
+                                    {row.recoveredPer} %
+                                  </Typography>
+                                </TableCell>
+                                <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
+                                  <Typography className="death-color">
+                                    {row.deathPer} %
                                   </Typography>
                                 </TableCell>
                             </TableRow>

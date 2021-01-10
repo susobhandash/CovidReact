@@ -173,6 +173,48 @@ class StateDetails extends React.Component {
         this.setState({graphData: graphDataItem});
     }
 
+    getFormattedDate(date) {
+        if (date) {
+            const dateString = date.toString();
+
+            const ISO_8601_re = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{3}))?(Z|[\+-]\d{2}(?::\d{2})?)$/,
+                m = dateString.match(ISO_8601_re);
+
+                let year = +m[1],
+                month = +m[2],
+                dayOfMonth = +m[3],
+                hour = +m[4],
+                minute = +m[5],
+                second = +m[6],
+                timezone = m[8];
+
+            let timesZones = [''];
+            timesZones = timezone.split(':');
+            timesZones =  +(timesZones[0][0]+'1') * (60*(+timesZones[0].slice(1)) + (+timesZones[1] || 0));
+
+            // your prefered way to construct
+            const myDate = new Date();
+            myDate.setUTCFullYear(year);
+            myDate.setUTCMonth(month - 1);
+            myDate.setUTCDate(dayOfMonth);
+            myDate.setUTCHours(hour);
+            myDate.setUTCMinutes(minute + timesZones); // timezone offset set here, after hours
+            myDate.setUTCSeconds(second);
+
+            let currentDate = new Date(myDate);
+            let formattedDate = currentDate.getDate();
+            let formattedMonth = currentDate.getMonth() + 1;
+            let formattedYear = currentDate.getYear() + 1900;
+            let formattedHour = currentDate.getHours();
+            let formattedMinute = currentDate.getMinutes().toString();
+            let formattedDay = currentDate.toString().slice(0, 3);
+
+            return formattedDay +', '+ formattedDate +'/'+ formattedMonth +'/'+ formattedYear+', '+formattedHour+':'+ (formattedMinute.length === 1 ? '0'+formattedMinute : formattedMinute);
+        } else {
+            return '';
+        }
+    }
+
     render() {
         return(
             <Paper>
@@ -422,9 +464,9 @@ class StateDetails extends React.Component {
                                 </div>
                             </div>
                             <div className="mt--1 text-left pl-2 pb-2">
-                                <Typography className="recovered-color d-flex align-center" variant="body2" component="p">
+                                <Typography className="active-color d-flex align-center" variant="body2" component="p">
                                     <InfoIcon className="pr-1"/>
-                                    Updated as on {this.state.stateData.meta?.last_updated}
+                                    Updated as on <b>&nbsp;&nbsp;{this.getFormattedDate(this.state.stateData.meta?.last_updated)}</b>
                                 </Typography>
                             </div>
                         </Grid>

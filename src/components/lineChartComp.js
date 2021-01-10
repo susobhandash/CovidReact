@@ -73,6 +73,7 @@ export default class LineChartComp extends React.Component {
                                     },
                                     ticks: {
                                         suggestedMin: 0,
+                                        fontColor: this.state.titleColor
                                     }
                                 }],
                                 yAxes: [{
@@ -80,6 +81,9 @@ export default class LineChartComp extends React.Component {
                                     gridLines: {
                                         display: false
                                     },
+                                    ticks: {
+                                        fontColor: this.state.titleColor
+                                    }
                                 }]
                             }
                         }}

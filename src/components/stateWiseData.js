@@ -96,6 +96,15 @@ const useStyles = makeStyles((theme) => ({
       '&:nth-of-type(odd)': {
         backgroundColor: '#f9f9f9',
       },
+      '&:nth-of-type(even)': {
+        backgroundColor: '#fff',
+      },
+      '&:nth-of-type(even) td:first-child': {
+        boxShadow: '0px 0px 3px #ccc'
+      },
+      '&:nth-of-type(odd) td:first-child': {
+        boxShadow: '0px 0px 3px #ccc'
+      }
     },
 }));
 

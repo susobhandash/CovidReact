@@ -323,6 +323,23 @@
   }
 
 
+  tbody tr > td:first-child {
+    position: sticky;
+    z-index: 10;
+    left: 0;
+    background: inherit;
+  }
+
+  thead tr > th:first-child {
+    position: sticky;
+    z-index: 10;
+    left: 0;
+  }
+
+  .MuiTableRow-root.MuiTableRow-hover:hover {
+    background-color: rgb(245, 245, 245)!important;
+  }
+
 
 
 

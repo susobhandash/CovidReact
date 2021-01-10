@@ -11,7 +11,8 @@ export default class LineChartComp extends React.Component {
         this.chartReference = {};
         this.state = {
             graphData: this.props.graphData,
-            titleColor: ''
+            titleColor: '',
+            showLabels: this.props.showLabels ? this.props.showLabels : false
         }
     }
 
@@ -65,7 +66,7 @@ export default class LineChartComp extends React.Component {
                             },
                             scales: {
                                 xAxes: [{
-                                    display: false,
+                                    display: this.state.showLabels,
                                     gridLines: {
                                         display: false
                                     },
@@ -74,7 +75,7 @@ export default class LineChartComp extends React.Component {
                                     }
                                 }],
                                 yAxes: [{
-                                    display: false,
+                                    display: this.state.showLabels,
                                     gridLines: {
                                         display: false
                                     },

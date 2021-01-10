@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import BarChartComp from './chartComp.js';
+import LineChartComp from './lineChartComp.js';
 
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -109,9 +110,22 @@ class StateDetails extends React.Component {
         
         graphDataItem.datasets[0].borderWidth = 0;
         graphDataItem.datasets[0].barPercentage = 0.5;
-        graphDataItem.datasets[0].backgroundColor = 'rgba(32,26,162,.25)';
-        graphDataItem.datasets[0].borderColor = 'rgba(32,26,162,.866667)';
-        graphDataItem.datasets[0].hoverBackgroundColor = 'rgba(32,26,162,.866667)';
+        if (this.state.selectedFilter === 'confirmed') {
+            graphDataItem.datasets[0].backgroundColor = 'rgba(255, 7, 58, 0.25)';
+            graphDataItem.datasets[0].borderColor = '#ff073a';
+            graphDataItem.datasets[0].hoverBackgroundColor = 'rgba(255, 7, 58, 1)';
+        } else if (this.state.selectedFilter === 'deceased') {
+            graphDataItem.datasets[0].backgroundColor = 'rgba(108, 117, 125, 0.25)';
+            graphDataItem.datasets[0].borderColor = '#6c757d';
+            graphDataItem.datasets[0].hoverBackgroundColor = 'rgba(108, 117, 125, 1)';
+        } else {
+            graphDataItem.datasets[0].backgroundColor = 'rgba(40, 167, 69, 0.25)';
+            graphDataItem.datasets[0].borderColor = '#28a745';
+            graphDataItem.datasets[0].hoverBackgroundColor = 'rgba(40, 167, 69, 1)';
+        }
+        // graphDataItem.datasets[0].backgroundColor = 'rgba(32,26,162,.25)';
+        // graphDataItem.datasets[0].borderColor = 'rgba(32,26,162,.866667)';
+        // graphDataItem.datasets[0].hoverBackgroundColor = 'rgba(32,26,162,.866667)';
         
         this.setState({deltaGraphData: graphDataItem});
     }
@@ -122,38 +136,40 @@ class StateDetails extends React.Component {
             labels: [],
             datasets: [{
                 data: [],
-                backgroundColor: '',
+                backgroundColor: 'transparent',
                 borderColor: '',
-                hoverBackgroundColor: '',
-                borderWidth: 0,
+                hoverBackgroundColor: 'transparent',
+                borderWidth: 3,
                 barPercentage: 0.5,
+                pointBorderWidth: 4,
+                pointRadius: 3
             }]
         };
-        let backgroundColor = '';
+        // let backgroundColor = '';
         let borderColor = '';
-        let hoverBackgroundColor = '';
+        // let hoverBackgroundColor = '';
         this.state.historyData.forEach((el) => {
             graphDataItem.labels.push(el.date);
             graphDataItem.datasets[0].data.push(el.total[this.state.selectedFilter]);
         });
         if (this.state.selectedFilter === 'confirmed') {
-            backgroundColor = 'rgba(255, 7, 58, 0.25)';
+            // backgroundColor = 'rgba(255, 7, 58, 0.25)';
             borderColor = '#ff073a';
-            hoverBackgroundColor = 'rgba(255, 7, 58, 1)';
+            // hoverBackgroundColor = 'rgba(255, 7, 58, 1)';
         } else if (this.state.selectedFilter === 'deceased') {
-            backgroundColor = 'rgba(108, 117, 125, 0.25)';
+            // backgroundColor = 'rgba(108, 117, 125, 0.25)';
             borderColor = '#6c757d';
-            hoverBackgroundColor = 'rgba(108, 117, 125, 1)';
+            // hoverBackgroundColor = 'rgba(108, 117, 125, 1)';
         } else {
-            backgroundColor = 'rgba(40, 167, 69, 0.25)';
+            // backgroundColor = 'rgba(40, 167, 69, 0.25)';
             borderColor = '#28a745';
-            hoverBackgroundColor = 'rgba(40, 167, 69, 1)';
+            // hoverBackgroundColor = 'rgba(40, 167, 69, 1)';
         }
-        graphDataItem.datasets[0].borderWidth = 0;
-        graphDataItem.datasets[0].barPercentage = 0.5;
-        graphDataItem.datasets[0].backgroundColor = backgroundColor;
+        // graphDataItem.datasets[0].borderWidth = 0;
+        // graphDataItem.datasets[0].barPercentage = 0.5;
+        // graphDataItem.datasets[0].backgroundColor = backgroundColor;
         graphDataItem.datasets[0].borderColor = borderColor;
-        graphDataItem.datasets[0].hoverBackgroundColor = hoverBackgroundColor;
+        // graphDataItem.datasets[0].hoverBackgroundColor = hoverBackgroundColor;
         this.setState({graphData: graphDataItem});
     }
 
@@ -389,10 +405,11 @@ class StateDetails extends React.Component {
                                 </Grid>
                             </div>
                             <div className="mt--2">
-                                <BarChartComp graphData={this.state.graphData}/>
+                                <BarChartComp graphData={this.state.deltaGraphData}/>
                             </div>
                             <div className="mt--2">
-                                <BarChartComp graphData={this.state.deltaGraphData}/>
+                                <LineChartComp graphData={this.state.graphData} showLabels="true"/>
+                                {/* <BarChartComp graphData={this.state.graphData}/> */}
                             </div>
                             <div className="p-2">
                                 <div className="br-5 focus-text-bg p-2">

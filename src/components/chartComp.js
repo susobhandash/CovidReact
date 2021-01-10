@@ -30,12 +30,12 @@ export default class BarChartComp extends React.Component {
 
     getFontColor = () => {
         let color = '';
-        if (this.state.graphData.title.indexOf('new cases') === -1) {
-            if (this.state.graphData.title === 'total cases: confirmed') {
+        if (this.state.graphData.title.indexOf('new cases') > -1) {
+            if (this.state.graphData.title === 'new cases: confirmed') {
                 color = '#ff073a';
-            } else if (this.state.graphData.title === 'total cases: recovered') {
+            } else if (this.state.graphData.title === 'new cases: recovered') {
                 color = '#28a745';
-            } else if (this.state.graphData.title === 'total cases: deceased') {
+            } else if (this.state.graphData.title === 'new cases: deceased') {
                 color = '#6c757d';
             } else {
                 color = '#ff073a';

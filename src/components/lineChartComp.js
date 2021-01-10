@@ -32,11 +32,12 @@ export default class LineChartComp extends React.Component {
     getFontColor = () => {
         let color = '';
         if (this.state.graphData.title.indexOf('Delta') === -1) {
-            if (this.state.graphData.title === 'Confirmed') {
+            const title = this.state.graphData.title;
+            if (title === 'Confirmed' || title === 'total cases: confirmed') {
                 color = '#ff073a';
-            } else if (this.state.graphData.title === 'Recovered') {
+            } else if (title === 'Recovered' || title === 'total cases: recovered') {
                 color = '#28a745';
-            } else if (this.state.graphData.title === 'Deceased') {
+            } else if (title === 'Deceased' || title === 'total cases: deceased') {
                 color = '#021B79';
             } else {
                 color = '#ff073a';

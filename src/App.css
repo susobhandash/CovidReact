@@ -353,14 +353,28 @@
 
 
 
-  @media only screen and (max-width: 767px) {
+  @media only screen and (max-width: 1025px) {
     * {
       font-size: 97%!important;
     }
     .MuiTableCell-sizeSmall {
       padding: 4px 2px!important;
     }
-    
+    .App {
+      padding: 10px!important;
+    }
+    .state-details {
+      width: 100%!important;
+    }
+    .p-2 {
+      padding: 5px!important;
+    }
+    .mt--2 {
+      margin-top: 0px!important;
+    }
+    .district-grids.pl-2 {
+      padding-left: 0px;
+    }
     /* .MuiTableCell-head {
       font-size: 0.7rem!important;
       line-height: 1!important;

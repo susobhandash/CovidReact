@@ -470,7 +470,7 @@ class StateDetails extends React.Component {
                                 </Typography>
                             </div>
                         </Grid>
-                        <Grid xs={12} md={8} item className="pl-2">
+                        <Grid xs={12} md={8} item className="pl-2 district-grids">
                             <div className="d-flex text-left dist-header">
                                 <Typography variant="body1" component="h4" className="col-4">
                                     District

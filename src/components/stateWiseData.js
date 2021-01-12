@@ -218,13 +218,14 @@ export default function CovidDetails() {
             const result  = await res.json();
             // const dailyConfirmed = [], dailyDeceased = [], dailyRecovered = [];
             let stateWise = result.statewise;
+            // console.log(stateWise);
             stateWise.forEach((e,i,a) => {
               e.activePer = e.active !== "0" && e.confirmed !== "0" ? Math.round((e.active/e.confirmed)*100) : '0';
               e.recoveredPer = e.recovered !== "0" && e.confirmed !== "0" ? Math.round((e.recovered/e.confirmed)*100) : '0';
               e.deathPer = e.deaths !== "0" && e.confirmed !== "0" ? Math.round((e.deaths/e.confirmed)*100) : '0';
             });
             setStateData(result.statewise);
-            console.log(stateData);
+            // console.log(stateData);
             setDailyCases(result.cases_time_series.slice(result.cases_time_series.length - 15, result.cases_time_series.length));
             const rawData = result.cases_time_series.slice(result.cases_time_series.length - 15, result.cases_time_series.length);
             let recoveredGraphData = {
@@ -317,77 +318,79 @@ export default function CovidDetails() {
                 <TableBody>
                     {stableSort(stateData, getComparator(order, orderBy))
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((row, index) => {
-                            
-                            return (
-                            <TableRow
-                                hover
-                                tabIndex={-1}
-                                key={row.state}
-                                className={classes.altRows}
-                            >
-                                <TableCell align="left" className={row.state === 'Total' ? 'bold' : ''}>
-                                  <Typography className={classes.stateNames} color="secondary">
-                                    <Link to={{
-                                      pathname: '/StateDetails',
-                                      state: {
-                                        stateName: row.state,
-                                        statecode: row.statecode
-                                      }
-                                    }}>
-                                      {row.state}
-                                    </Link>
-                                  </Typography>
-                                </TableCell>
-                                <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
-                                  <Typography className="align-center active-color">
-                                    {row.active}
-                                  </Typography>
-                                </TableCell>
-                                <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
-                                  <Typography className="align-center confirmed-light-color bold" variant="body2" component="p">
-                                    <ArrowUpwardIcon fontSize="small"/>
-                                    {row.deltaconfirmed}
-                                  </Typography>
-                                  <Typography className="confirmed-color">
-                                    {row.confirmed}
-                                  </Typography>
-                                </TableCell>
-                                <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
-                                  <Typography className="align-center recovered-light-color bold" variant="body2" component="p">
-                                    <ArrowUpwardIcon fontSize="small"/>
-                                    {row.deltarecovered}
-                                  </Typography>
-                                  <Typography className="recovered-color">
-                                    {row.recovered}
-                                  </Typography>
-                                </TableCell>
-                                <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
-                                  <Typography className="align-center death-light-color bold" variant="body2" component="p">
-                                    <ArrowUpwardIcon fontSize="small"/>
-                                    {row.deltadeaths}
-                                  </Typography>
-                                  <Typography className="death-color">
-                                    {row.deaths}
-                                  </Typography>
-                                </TableCell>
-                                <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
-                                  <Typography className="active-color">
-                                    {row.activePer} %
-                                  </Typography>
-                                </TableCell>
-                                <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
-                                  <Typography className="recovered-color">
-                                    {row.recoveredPer} %
-                                  </Typography>
-                                </TableCell>
-                                <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
-                                  <Typography className="death-color">
-                                    {row.deathPer} %
-                                  </Typography>
-                                </TableCell>
-                            </TableRow>
-                            );
+                        .map((row, index, arr) => {
+                            if (row.statecode !== 'UN') {
+                              return (
+                                <TableRow
+                                    hover
+                                    tabIndex={-1}
+                                    key={row.state}
+                                    className={classes.altRows}
+                                >
+                                    <TableCell align="left" className={row.state === 'Total' ? 'bold' : ''}>
+                                      <Typography className={classes.stateNames} color="secondary">
+                                        <Link to={{
+                                          pathname: '/StateDetails',
+                                          state: {
+                                            stateName: row.state,
+                                            statecode: row.statecode,
+                                            statedata: stateData
+                                          }
+                                        }}>
+                                          {row.state}
+                                        </Link>
+                                      </Typography>
+                                    </TableCell>
+                                    <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
+                                      <Typography className="align-center active-color">
+                                        {row.active}
+                                      </Typography>
+                                    </TableCell>
+                                    <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
+                                      <Typography className="align-center confirmed-light-color bold" variant="body2" component="p">
+                                        <ArrowUpwardIcon fontSize="small"/>
+                                        {row.deltaconfirmed}
+                                      </Typography>
+                                      <Typography className="confirmed-color">
+                                        {row.confirmed}
+                                      </Typography>
+                                    </TableCell>
+                                    <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
+                                      <Typography className="align-center recovered-light-color bold" variant="body2" component="p">
+                                        <ArrowUpwardIcon fontSize="small"/>
+                                        {row.deltarecovered}
+                                      </Typography>
+                                      <Typography className="recovered-color">
+                                        {row.recovered}
+                                      </Typography>
+                                    </TableCell>
+                                    <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
+                                      <Typography className="align-center death-light-color bold" variant="body2" component="p">
+                                        <ArrowUpwardIcon fontSize="small"/>
+                                        {row.deltadeaths}
+                                      </Typography>
+                                      <Typography className="death-color">
+                                        {row.deaths}
+                                      </Typography>
+                                    </TableCell>
+                                    <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
+                                      <Typography className="active-color">
+                                        {row.activePer} %
+                                      </Typography>
+                                    </TableCell>
+                                    <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
+                                      <Typography className="recovered-color">
+                                        {row.recoveredPer} %
+                                      </Typography>
+                                    </TableCell>
+                                    <TableCell align="right" className={row.state === 'Total' ? 'bold' : classes.tableCellFont}>
+                                      <Typography className="death-color">
+                                        {row.deathPer} %
+                                      </Typography>
+                                    </TableCell>
+                                </TableRow>
+                                );
+                            }
                         })}
                         {emptyRows > 0 && (
                         <TableRow style={{ height: 33 * emptyRows }}>

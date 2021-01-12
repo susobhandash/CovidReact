@@ -32,6 +32,9 @@ class StateDetails extends React.Component {
         this.setState({stateName: stateName});
         this.setState({statecode: stateCode});
         this.setState({statesdata: stateData});
+
+        this.getPrevState(stateCode, true);
+        this.getPrevState(stateCode, false);
         
         fetch(`https://api.covid19india.org/v4/data.json`)
             .then(async (res) => {
@@ -157,7 +160,13 @@ class StateDetails extends React.Component {
         let borderColor = '';
         this.state.historyData.forEach((el) => {
             graphDataItem.labels.push(el.date);
-            graphDataItem.datasets[0].data.push(el.total[this.state.selectedFilter]);
+            if (this.state.selectedFilter === 'confirmed') {
+                graphDataItem.datasets[0].data.push(el.total[this.state.selectedFilter]);
+            } else {
+                let data = parseFloat((el.total[this.state.selectedFilter]/el.total['confirmed'])*100).toFixed(2);
+                graphDataItem.datasets[0].data.push(data);
+            }
+            
         });
         if (this.state.selectedFilter === 'confirmed') {
             borderColor = '#ff073a';
@@ -235,7 +244,7 @@ class StateDetails extends React.Component {
         return(
             <Paper>
                 <div className="state-details">
-                    <div className="d-flex align-center">
+                    <div className="d-flex align-center details-header MuiPaper-elevation1">
                         <Link to={{
                             pathname: '/'
                         }}>
@@ -246,12 +255,12 @@ class StateDetails extends React.Component {
                             </Tooltip>
                         </Link>
                         <Typography variant="h5" component="h5" className="col focus-text-color states-holder">
-                            <Link 
+                        <Link
                                 onClick={() => {
                                     const state = {
                                         stateName: this.state && this.state.statesdata && this.state.statesdata.length > 0 ? this.state.statesdata[this.getPrevState(this.state.statecode, true)]['state'] : 'NA',
                                         statecode: this.state && this.state.statesdata && this.state.statesdata.length > 0 ? this.state.statesdata[this.getPrevState(this.state.statecode, true)]['statecode'] : 'NA',
-                                        statesdata: this.state.statesdata
+                                        statedata: this.state.statesdata
                                     }
                                     this.loadInitialData(state.stateName, state.statecode, state.statedata)
                                 }}
@@ -260,9 +269,9 @@ class StateDetails extends React.Component {
                                     state: {
                                         stateName: this.state && this.state.statesdata && this.state.statesdata.length > 0 ? this.state.statesdata[this.getPrevState(this.state.statecode, true)]['state'] : 'NA',
                                         statecode: this.state && this.state.statesdata && this.state.statesdata.length > 0 ? this.state.statesdata[this.getPrevState(this.state.statecode, true)]['statecode'] : 'NA',
-                                        statesdata: this.state.statesdata
+                                        statedata: this.state.statesdata
                                     }
-                                  }}>
+                                }}>
                                 {this.state && this.state.statesdata && this.state.statesdata.length > 0 ? this.state.statesdata[this.getPrevState(this.state.statecode, true)]['state'] : 'NA'}
                             </Link>
                             <span>{this.state.stateName} ({this.state.statecode})</span>

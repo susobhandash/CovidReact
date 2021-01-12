@@ -2,13 +2,14 @@
     font-family: 'archia';
     /* src: url(assets/fonts/archia-regular-webfont.woff); */
     src: url('assets/fonts/archia-regular-webfont.eot');
-	  src: url('assets/fonts/archia-regular-webfont.eot?#iefix') format('embedded-opentype'),
-	     url('assets/fonts/archia-regular-webfont.woff') format('woff'),
-	     url('assets/fonts/archia-regular-webfont.ttf') format('truetype');
+    src: url('assets/fonts/archia-regular-webfont.eot?#iefix') format('embedded-opentype'),
+      url('assets/fonts/archia-regular-webfont.woff') format('woff'),
+      url('assets/fonts/archia-regular-webfont.ttf') format('truetype');
   }
 
-  body, * {
-    font-family: archia!important;
+  body,
+  * {
+    font-family: archia !important;
   }
 
   .App {
@@ -50,18 +51,19 @@
 
   a {
     text-decoration: none;
-    color: #007bff!important;
+    color: #007bff !important;
     font-weight: 600;
   }
 
   a:hover {
-    color: #0366d6!important;
+    color: #0366d6 !important;
   }
 
   @keyframes App-logo-spin {
     from {
       transform: rotate(0deg);
     }
+
     to {
       transform: rotate(360deg);
     }
@@ -74,7 +76,7 @@
   }
 
   div[id*="canvasjs-react-chart-container"] {
-    height: 19vh!important;
+    height: 19vh !important;
   }
 
   .align-center-justify-between {
@@ -86,6 +88,7 @@
   h6.MuiTypography-body2 {
     font-weight: 600;
   }
+
   h5.MuiTypography-h5 {
     font-weight: 600;
   }
@@ -94,54 +97,66 @@
   .confirmed-color {
     color: #ff073a;
   }
+
   .confirmed-light-color {
     color: rgba(255, 7, 58, 0.565);
   }
+
   .confirmed-bg {
     background: rgba(255, 7, 58, 0.0627451);
     transition: all linear 0.2s;
   }
+
   .confirmed-bg-hover {
     transition: all linear 0.2s;
   }
+
   .confirmed-bg-hover:hover {
-    background: rgba(255, 7, 58, 0.125)!important;
+    background: rgba(255, 7, 58, 0.125) !important;
   }
 
   .active-color {
     color: #007bff;
   }
+
   .active-light-color {
     color: rgba(0, 123, 255, 0.565);
   }
+
   .active-bg {
     background: rgba(0, 123, 255, 0.0627451);
     transition: all linear 0.2s;
   }
+
   .active-bg-hover {
     transition: all linear 0.2s;
   }
+
   .active-bg-hover:hover {
-    background: rgba(0, 123, 255, 0.125)!important;
+    background: rgba(0, 123, 255, 0.125) !important;
   }
 
   .recovered-color {
     color: #28a745;
   }
+
   .recovered-light-color {
     color: rgba(40, 167, 69, 0.565);
   }
+
   .recovered-bg {
     background: rgba(40, 167, 69, 0.0627451);
     transition: all linear 0.2s;
   }
+
   .recovered-bg-hover {
     transition: all linear 0.2s;
   }
+
   .recovered-bg-hover:hover {
-    background: rgba(40, 167, 69, 0.125)!important;
+    background: rgba(40, 167, 69, 0.125) !important;
   }
-  
+
   /* .death-color {
     color: #6c757d;
   } */
@@ -151,41 +166,50 @@
   .death-color {
     color: #021B79;
   }
+
   .death-light-color {
     color: rgba(2, 27, 121, 0.565);
   }
+
   .death-bg {
     background: rgba(2, 27, 121, 0.0627451);
     transition: all linear 0.2s;
   }
+
   .death-bg-hover {
     transition: all linear 0.2s;
   }
+
   .death-bg-hover:hover {
-    background: rgba(2, 27, 121, 0.125)!important;
+    background: rgba(2, 27, 121, 0.125) !important;
   }
 
   .focus-text-color {
-    color: rgba(32,26,162,.866667);
+    color: rgba(32, 26, 162, .866667);
   }
+
   .focus-text-light-color {
-    color: rgba(32,26,162,0.565);
+    color: rgba(32, 26, 162, 0.565);
   }
+
   .focus-text-bg {
-    background: rgba(32,26,162,.0627451);
+    background: rgba(32, 26, 162, .0627451);
     transition: all linear 0.2s;
   }
+
   .focus-text-bg-hover {
     transition: all linear 0.2s;
   }
+
   .focus-text-bg-hover:hover {
-    background: rgba(32,26,162,.12549);
+    background: rgba(32, 26, 162, .12549);
   }
 
 
   .d-flex {
     display: flex;
   }
+
   .d-inline-flex {
     display: inline-flex;
   }
@@ -193,6 +217,7 @@
   .align-center {
     align-items: center;
   }
+
   .justify-around {
     justify-content: space-around;
   }
@@ -203,6 +228,7 @@
     min-width: 0;
     max-width: 100%;
   }
+
   .col-4 {
     flex: 0 0 20%;
   }
@@ -215,16 +241,19 @@
     text-align: center;
     justify-content: center;
   }
+
   .text-left {
     text-align: left;
     justify-content: flex-start;
   }
+
   .break-spaces {
     white-space: break-spaces;
   }
+
   .no-gutters {
-    width: 100%!important;
-    margin: 0px!important;
+    width: 100% !important;
+    margin: 0px !important;
   }
 
   .c-p {
@@ -234,33 +263,47 @@
   .p-2 {
     padding: 1rem;
   }
+
   .p-1 {
     padding: 0.5rem;
   }
+
+  .pt-1 {
+    padding-top: 0.5rem !important;
+  }
+
   .m-1 {
     margin: 0.5rem;
   }
+
   .mt--2 {
     margin-top: -1rem;
   }
+
   .pl-2 {
     padding-left: 1rem;
   }
+
   .pr-1 {
     padding-right: 0.5rem;
   }
+
   .pt-1 {
     padding-top: 0.5rem;
   }
+
   .pb-0 {
-    padding-bottom: 0!important;
+    padding-bottom: 0 !important;
   }
+
   .pb-1 {
     padding-bottom: 0.5rem;
   }
+
   .pb-2 {
     padding-bottom: 1rem;
   }
+
   .mb-1 {
     margin-bottom: 0.5rem !important;
   }
@@ -271,30 +314,34 @@
     min-height: calc(100vh - 40px);
     width: calc(100vw - 40px);
   }
+
   .dist-data {
     height: calc(100% - 170px);
   }
+
   /* .dist-data .MuiGrid-grid-md-8 {
     height: 100%;
     overflow: auto;
   } */
   .dist-header {
     /* background-color: rgba(32,26,162,.12549); */
-    color: rgba(32,26,162,.866667);
+    color: rgba(32, 26, 162, .866667);
     position: sticky;
-    top: 55px;
+    top: 50px;
     z-index: 1;
     background: rgb(227 226 243);
     width: 100%;
     border-radius: 4px;
     overflow: hidden;
   }
+
   .dist-header .col {
     /* background: #fff; */
     overflow: hidden;
     text-overflow: ellipsis;
     /* box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5) */
   }
+
   .dist-body .col-4,
   .dist-body .col,
   .dist-header .col-4,
@@ -304,40 +351,43 @@
     font-weight: 600;
     border-radius: 4px;
   }
+
   .dist-body .col-4 {
-    background-color: rgba(32,26,162,.12549);
+    background-color: rgba(32, 26, 162, .12549);
     border-radius: 4px;
-    color: rgba(32,26,162,.866667);
+    color: rgba(32, 26, 162, .866667);
     overflow: hidden;
     /* box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.5) */
   }
-  .dist-body .col-4 > * {
+
+  .dist-body .col-4>* {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;
   }
+
   .dist-body:nth-child(even) .col {
     background-color: #fff;
     border-radius: 4px;
   }
 
 
-  tbody tr > td:first-child {
+  tbody tr>td:first-child {
     position: sticky;
     z-index: 10;
     left: 0;
     background: inherit;
   }
 
-  thead tr > th:first-child {
+  thead tr>th:first-child {
     position: sticky;
     z-index: 10;
     left: 0;
   }
 
   .MuiTableRow-root.MuiTableRow-hover:hover {
-    background-color: rgb(245, 245, 245)!important;
+    background-color: rgb(245, 245, 245) !important;
   }
 
   .states-holder {
@@ -371,26 +421,33 @@
 
   @media only screen and (max-width: 1025px) {
     * {
-      font-size: 97%!important;
+      font-size: 97% !important;
     }
+
     .MuiTableCell-sizeSmall {
-      padding: 4px 2px!important;
+      padding: 4px 2px !important;
     }
+
     .App {
-      padding: 10px!important;
+      padding: 10px !important;
     }
+
     .state-details {
-      width: 100%!important;
+      width: 100% !important;
     }
+
     .p-2 {
-      padding: 5px!important;
+      padding: 5px !important;
     }
+
     .mt--2 {
-      margin-top: 0px!important;
+      margin-top: 0px !important;
     }
+
     .district-grids.pl-2 {
       padding-left: 0px;
     }
+
     /* .MuiTableCell-head {
       font-size: 0.7rem!important;
       line-height: 1!important;

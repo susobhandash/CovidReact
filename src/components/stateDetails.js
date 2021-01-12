@@ -249,7 +249,7 @@ class StateDetails extends React.Component {
                             pathname: '/'
                         }}>
                             <Tooltip title="Back to Home Page" placement="right">
-                                <Fab size="small" color="primary" className="col">
+                                <Fab size="small" color="secondary" className="col">
                                     <KeyboardBackspaceIcon fontSize="small"/>
                                 </Fab>
                             </Tooltip>
@@ -273,6 +273,7 @@ class StateDetails extends React.Component {
                                     }
                                 }}>
                                 {this.state && this.state.statesdata && this.state.statesdata.length > 0 ? this.state.statesdata[this.getPrevState(this.state.statecode, true)]['state'] : 'NA'}
+                                &nbsp;[{this.state && this.state.statesdata && this.state.statesdata.length > 0 ? this.state.statesdata[this.getPrevState(this.state.statecode, true)]['statecode'] : 'NA'}]
                             </Link>
                             <span>{this.state.stateName} ({this.state.statecode})</span>
                             <Link
@@ -293,6 +294,7 @@ class StateDetails extends React.Component {
                                     }
                                 }}>
                                 {this.state && this.state.statesdata && this.state.statesdata.length > 0 ? this.state.statesdata[this.getPrevState(this.state.statecode, false)]['state'] : 'NA'}
+                                &nbsp;[{this.state && this.state.statesdata && this.state.statesdata.length > 0 ? this.state.statesdata[this.getPrevState(this.state.statecode, false)]['statecode'] : 'NA'}]
                             </Link>
                         </Typography>
                     </div>
@@ -397,7 +399,7 @@ class StateDetails extends React.Component {
                                             case percentages
                                         </Typography>
                                     </Grid>
-                                    <Grid xs={4} md={4} item className="p-2">
+                                    <Grid xs={4} md={4} item className="p-2 pt-1">
                                         <div className="active-bg pt-1 pb-1 br-5">
                                             <Typography className="active-color" variant="body2" component="small">
                                                 Active
@@ -414,7 +416,7 @@ class StateDetails extends React.Component {
                                             </Tooltip>
                                         </div>
                                     </Grid>
-                                    <Grid xs={4} md={4} item className="p-2">
+                                    <Grid xs={4} md={4} item className="p-2 pt-1">
                                         <div className="recovered-bg pt-1 pb-1 br-5">
                                             <Typography className="recovered-color" variant="body2" component="small">
                                                 Recovered
@@ -429,7 +431,7 @@ class StateDetails extends React.Component {
                                             </Tooltip>
                                         </div>
                                     </Grid>
-                                    <Grid xs={4} md={4} item className="p-2">
+                                    <Grid xs={4} md={4} item className="p-2 pt-1">
                                         <div className="death-bg pt-1 pb-1 br-5">
                                             <Typography className="death-color" variant="body2" component="small">
                                                 Deceased
@@ -450,7 +452,7 @@ class StateDetails extends React.Component {
                                             per 10,00,000 population
                                         </Typography>
                                     </Grid>
-                                    <Grid xs={6} md={3} item className="p-2 pb-0">
+                                    <Grid xs={6} md={3} item className="p-1 pb-0">
                                         <div className="active-bg pt-1 pb-1 br-5">
                                             <Typography className="active-color" variant="body2" component="small">
                                                 Active
@@ -468,7 +470,7 @@ class StateDetails extends React.Component {
                                             </Tooltip>
                                         </div>
                                     </Grid>
-                                    <Grid xs={6} md={3} item className="p-2 pb-0">
+                                    <Grid xs={6} md={3} item className="p-1 pb-0">
                                         <div className="confirmed-bg pt-1 pb-1 br-5">
                                             <Typography className="confirmed-color" variant="body2" component="small">
                                                 Confirmed
@@ -481,7 +483,7 @@ class StateDetails extends React.Component {
                                             </Tooltip>
                                         </div>
                                     </Grid>
-                                    <Grid xs={6} md={3} item className="p-2 pb-0">
+                                    <Grid xs={6} md={3} item className="p-1 pb-0">
                                         <div className="recovered-bg pt-1 pb-1 br-5">
                                             <Typography className="recovered-color" variant="body2" component="small">
                                                 Recovered
@@ -494,7 +496,7 @@ class StateDetails extends React.Component {
                                             </Tooltip>
                                         </div>
                                     </Grid>
-                                    <Grid xs={6} md={3} item className="p-2 pb-0">
+                                    <Grid xs={6} md={3} item className="p-1 pb-0">
                                         <div className="death-bg pt-1 pb-1 br-5">
                                             <Typography className="death-color" variant="body2" component="small">
                                                 Deceased

@@ -214,13 +214,13 @@ export default function CovidDetails() {
   const rowsPerPage = stateData.length;
 
   const getData = useCallback(() => {
-    if (!!window.chrome) {
-      if (!(!!window.chrome.webstore || !!window.chrome.runtime)) {
-        alert('Is Chromium');
-      } else {
-        alert('Not Chromium');
-      }
-    }
+    // if (!!window.chrome) {
+    //   if (!(!!window.chrome.webstore || !!window.chrome.runtime)) {
+    //     alert('Is Chromium');
+    //   } else {
+    //     alert('Not Chromium');
+    //   }
+    // }
     service.getData().then(async (res) => {
       const result = await res.json();
       // const dailyConfirmed = [], dailyDeceased = [], dailyRecovered = [];

@@ -10,6 +10,12 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 
+import Paper from '@material-ui/core/Paper';
+import { Link } from 'react-router-dom';
+import Tooltip from '@material-ui/core/Tooltip';
+import Fab from '@material-ui/core/Fab';
+import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
+import HomeIcon from '@material-ui/icons/Home';
 
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
@@ -27,46 +33,33 @@ const useStyles = (theme) => ({
         flexBasis: '33.33%',
         flexShrink: 0,
     },
-    secondaryHeading: {
-        fontSize: '15px',
-        color: '#aaa',
-    },
-    distDetails: {
-        minWidth: '300px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    confirmed: {
-        color: blue[500],
-        fontSize: '13px'
-    },
-    deceased: {
-        color: red[500],
-        fontSize: '13px'
-    },
-    recovered: {
-        color: green[500],
-        fontSize: '13px'
-    }
 });
 
 class DistrictData extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            open: this.props.open
+        // this.state = {
+        //     open: this.props.open
+        // }
+    }
+
+    componentDidMount () {
+        if (this.props.location && this.props.location.state) {
+            // alert(this.props.location.state.stateName);
+            // alert(this.props.location.state.statecode);
+            console.log(this.props.location.state.statedata);
         }
+        // this.loadInitialData(this.props.location.state.stateName, this.props.location.state.statecode, this.props.location.state.statedata);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.open !== nextProps.open) {
-            this.setState({ open: nextProps.open });
-        }
+        // if (this.props.open !== nextProps.open) {
+        //     this.setState({ open: nextProps.open });
+        // }
 
-        if (nextProps.district && nextProps.district.districtData) {
-            this.setState({keys: Object.keys(nextProps.district.districtData)})
-        }
+        // if (nextProps.district && nextProps.district.districtData) {
+        //     this.setState({keys: Object.keys(nextProps.district.districtData)})
+        // }
         // if (nextProps.open) {
         //     alert(nextProps.district.statecode);
         // }
@@ -77,88 +70,39 @@ class DistrictData extends React.Component {
         const { classes } = this.props;
 
         return (
-            <Dialog
-                modal={[]}
-                open={this.state.open}
-            >
-                <DialogTitle id="simple-dialog-title">
-                    <Typography variant="h5" color="textSecondary" component="div">
-                        <p className="align-center-justify-between">
-                            {this.props.district.statecode}
-                            <IconButton aria-label="Close Modal" onClick={() => {this.setState({open: false}); this.props.closeModal()}}>
-                                <CloseIcon />
-                            </IconButton>
-                        </p>
-                    </Typography>
-                </DialogTitle>
-                <DialogContent>
-                    <div className="card-list">
-                        <div className={classes.root}>
-                        {this.state.keys ? this.state.keys.map((dist, index, a) => {
-                            return (
-                                <Accordion key={index}>
-                                    <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel{index}a-content"
-                                    id="panel{index}a-header"
-                                    >
-                                        <Typography className={classes.heading}>{dist}</Typography>
-                                        <Typography className={classes.secondaryHeading}>Active Cases: {this.props.district.districtData[dist].active}</Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails className={classes.distDetails}>
-                                        <div>
-                                            <Typography variant="h6" component="p" className={classes.confirmed}>
-                                                Confirmed
-                                            </Typography>
-                                            <Typography variant="body2" component="p" color="textSecondary" className={classes.heading} align="right">
-                                                {this.props.district.districtData[dist].confirmed}
-                                            </Typography>
-                                            <Typography variant="h5" component="p" className={classes.confirmed} align="right">
-                                                <ArrowUpwardIcon fontSize="small"/>
-                                                {this.props.district.districtData[dist].delta.confirmed}
-                                            </Typography>
-                                        </div>
-                                        <div>
-                                            <Typography variant="h6" component="p" className={classes.deceased}>
-                                                Deceased
-                                            </Typography>
-                                            <Typography variant="body2" component="p" color="textSecondary" className={classes.heading} align="right">
-                                                {this.props.district.districtData[dist].deceased}
-                                            </Typography>
-                                            <Typography variant="h5" component="p" className={classes.deceased} align="right">
-                                                <ArrowUpwardIcon fontSize="small"/>
-                                                {this.props.district.districtData[dist].delta.deceased}
-                                            </Typography>
-                                        </div>
-                                        <div>
-                                            <Typography variant="h6" component="p" className={classes.recovered}>
-                                                Recovered
-                                            </Typography>
-                                            <Typography variant="body2" component="p" color="textSecondary" className={classes.heading} align="right">
-                                                {this.props.district.districtData[dist].recovered}
-                                            </Typography>
-                                            <Typography variant="h5" component="p" className={classes.recovered} align="right">
-                                                <ArrowUpwardIcon fontSize="small"/>
-                                                {this.props.district.districtData[dist].delta.recovered}
-                                            </Typography>
-                                        </div>
-                                    </AccordionDetails>
-                                </Accordion>
-                            );
-                        }): ''}
-                        </div>
+            <Paper>
+                <div className="state-details">
+                    <div className="d-flex align-center details-header MuiPaper-elevation1">
+                        {/* <Link to={{
+                                pathname: '/StateDetails'
+                            }}>
+                            <Tooltip title="Back to Last Page" placement="right">
+                                <Fab size="small" color="secondary" className="col">
+                                    <KeyboardBackspaceIcon fontSize="small"/>
+                                </Fab>
+                            </Tooltip>
+                        </Link> */}
+                        <Link to={{
+                                pathname: '/'
+                            }}>
+                            <Tooltip title="Back to Home Page" placement="right">
+                                <Fab size="small" color="primary" className="col">
+                                    <HomeIcon fontSize="small"/>
+                                </Fab>
+                            </Tooltip>
+                        </Link>
                     </div>
-                </DialogContent>
-            </Dialog>
+                </div>
+            </Paper>
         )
     }
 }
 
-DistrictData.propTypes = {
-    open: PropTypes.bool.isRequired,
-    district: PropTypes.object,
-    closeModal: PropTypes.func,
-    classes: PropTypes.object.isRequired
-};
+// DistrictData.propTypes = {
+//     open: PropTypes.bool.isRequired,
+//     district: PropTypes.object,
+//     closeModal: PropTypes.func,
+//     classes: PropTypes.object.isRequired
+// };
 
 export default withStyles(useStyles)(DistrictData);

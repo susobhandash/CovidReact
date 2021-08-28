@@ -36,7 +36,7 @@ class StateDetails extends React.Component {
         this.getPrevState(stateCode, true);
         this.getPrevState(stateCode, false);
         
-        fetch(`https://api.covid19india.org/v4/data.json`)
+        fetch(`https://data.covid19india.org/v4/data.json`)
             .then(async (res) => {
                 const result =  await res.json();
                 this.setState({stateData: result[this.state.statecode]});
@@ -65,7 +65,7 @@ class StateDetails extends React.Component {
                 this.setState({distdata: data});
             }
         );
-        fetch('https://api.covid19india.org/v4/timeseries.json')
+        fetch('https://data.covid19india.org/v4/timeseries.json')
             .then(async (res) => {
                 const result = await res.json();
                 if (result[this.state.statecode]) {
@@ -255,7 +255,7 @@ class StateDetails extends React.Component {
                             </Tooltip>
                         </Link>
                         <Typography variant="h5" component="h5" className="col focus-text-color states-holder">
-                        <Link
+                            <Link
                                 onClick={() => {
                                     const state = {
                                         stateName: this.state && this.state.statesdata && this.state.statesdata.length > 0 ? this.state.statesdata[this.getPrevState(this.state.statecode, true)]['state'] : 'NA',
@@ -273,9 +273,20 @@ class StateDetails extends React.Component {
                                     }
                                 }}>
                                 {this.state && this.state.statesdata && this.state.statesdata.length > 0 ? this.state.statesdata[this.getPrevState(this.state.statecode, true)]['state'] : 'NA'}
-                                &nbsp;[{this.state && this.state.statesdata && this.state.statesdata.length > 0 ? this.state.statesdata[this.getPrevState(this.state.statecode, true)]['statecode'] : 'NA'}]
+                                {/* [{this.state && this.state.statesdata && this.state.statesdata.length > 0 ? this.state.statesdata[this.getPrevState(this.state.statecode, true)]['statecode'] : 'NA'}] */}
                             </Link>
-                            <span>{this.state.stateName} ({this.state.statecode})</span>
+                            <Link to={{
+                                    pathname: '/Stats',
+                                    state: {
+                                      stateName: this.state.stateName,
+                                      statecode: this.state.statecode,
+                                      statedata: this.state.stateData
+                                    }
+                                }}>
+                                <Tooltip title="Go to Status Page" placement="bottom">
+                                    <span>{this.state.stateName} ({this.state.statecode})</span> 
+                                </Tooltip>
+                            </Link>
                             <Link
                                 onClick={() => {
                                     const state = {
@@ -294,7 +305,7 @@ class StateDetails extends React.Component {
                                     }
                                 }}>
                                 {this.state && this.state.statesdata && this.state.statesdata.length > 0 ? this.state.statesdata[this.getPrevState(this.state.statecode, false)]['state'] : 'NA'}
-                                &nbsp;[{this.state && this.state.statesdata && this.state.statesdata.length > 0 ? this.state.statesdata[this.getPrevState(this.state.statecode, false)]['statecode'] : 'NA'}]
+                                {/* &nbsp;[{this.state && this.state.statesdata && this.state.statesdata.length > 0 ? this.state.statesdata[this.getPrevState(this.state.statecode, false)]['statecode'] : 'NA'}] */}
                             </Link>
                         </Typography>
                     </div>

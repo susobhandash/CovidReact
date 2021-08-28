@@ -1,4 +1,4 @@
-All Data	https://api.covid19india.org/data.json
-State wise Data	https://api.covid19india.org/state_district_wise.json
-Travel History	https://api.covid19india.org/travel_history.json
-Raw Data	https://api.covid19india.org/raw_data.json
+All Data	https://data.covid19india.org/data.json
+State wise Data	https://data.covid19india.org/state_district_wise.json
+Travel History	https://data.covid19india.org/travel_history.json
+Raw Data	https://data.covid19india.org/raw_data.json

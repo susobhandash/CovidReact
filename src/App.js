@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import CovidDetails from "./components/stateWiseData.js";
 import StateDetails from './components/stateDetails.js';
+import districtData from './components/districtData.js';
 
 // import { makeStyles } from '@material-ui/core/styles';
 // import Paper from '@material-ui/core/Paper';
@@ -39,9 +40,10 @@ function App() {
           </li>
         </ul>  */}
           <Switch> 
-            <Route exact path='/' component={CovidDetails}></Route> 
-          </Switch> 
-        <Route path='/:StateDetails' component={StateDetails} />
+            <Route exact path='/' component={CovidDetails}></Route>
+            <Route exact path='/StateDetails' component={StateDetails} />
+            <Route exact paths='/Stats' component={districtData} /> 
+          </Switch>
       </div> 
     </Router>
     // <div className="App">
